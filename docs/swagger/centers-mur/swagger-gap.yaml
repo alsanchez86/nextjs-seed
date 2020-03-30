@@ -1,0 +1,615 @@
+swagger: '2.0'
+info:
+  description: Api Documentation
+  version: '1.0'
+  title: Api Documentation
+  termsOfService: 'urn:tos'
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0'
+host: 'localhost:8080'
+basePath: /
+tags:
+  - name: basic-error-controller
+    description: Basic Error Controller
+  - name: gap-controller-impl
+    description: Gap Controller Impl
+  - name: operation-handler
+    description: Operation Handler
+  - name: web-mvc-endpoint-handler-mapping
+    description: Web Mvc Endpoint Handler Mapping
+paths:
+  /actuator:
+    get:
+      tags:
+        - web-mvc-endpoint-handler-mapping
+      summary: links
+      operationId: linksUsingGET
+      produces:
+        - application/json
+        - application/vnd.spring-boot.actuator.v2+json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+              additionalProperties:
+                $ref: '#/definitions/Link'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /actuator/health:
+    get:
+      tags:
+        - operation-handler
+      summary: handle
+      operationId: handleUsingGET
+      produces:
+        - application/json
+        - application/vnd.spring-boot.actuator.v2+json
+      parameters:
+        - in: body
+          name: body
+          description: body
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /actuator/info:
+    get:
+      tags:
+        - operation-handler
+      summary: handle
+      operationId: handleUsingGET_1
+      produces:
+        - application/json
+        - application/vnd.spring-boot.actuator.v2+json
+      parameters:
+        - in: body
+          name: body
+          description: body
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /error:
+    get:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingGET
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    head:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingHEAD
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    post:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingDELETE
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    options:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingOPTIONS
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/gap/occupations/profiles/{applicant-code}':
+    get:
+      tags:
+        - gap-controller-impl
+      summary: >-
+        Listar las competencias faltantes y las que tiene un perfil competencia,
+        y el GAP 
+      description: >-
+        Servicio que permite listar las competencias que un perfil competencial
+        tiene o le hace falta respecto a una ocupación demandanda
+      operationId: gapPerfilOcupacionDemandadaUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: applicant-code
+          in: path
+          description: Código del demandante
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: Valor para número de página
+          required: false
+          type: string
+          default: '0'
+        - name: size
+          in: query
+          description: Valor para tamaño de página
+          required: false
+          type: string
+          default: '10'
+        - name: sortBy
+          in: query
+          description: Valor para campo y el tipo de orden de página
+          required: false
+          type: string
+          default: codOcupacion
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseListarCompetenciasOcupacionGap'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: >-
+            Cuando se ingresa url mal formadas o un registro no encontrado en
+            Base Datos
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/gap/occupations/profiles/{applicant-code}/calculus':
+    get:
+      tags:
+        - gap-controller-impl
+      summary: Ocupaciones más cercanas a demandante
+      description: >-
+        Servicio que permite ordenar las ocupaciones de menor a mayor GAP
+        competencial
+      operationId: listarOcupacionesCercanasUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: applicant-code
+          in: path
+          description: Código del demandante
+          required: true
+          type: string
+        - name: number-occupations
+          in: query
+          description: Número de ocupaciones
+          required: false
+          type: string
+          default: '10'
+      responses:
+        '200':
+          description: >-
+            Lista de ocupaciones más cercanas a perfil competencial del
+            demandante
+          schema:
+            $ref: '#/definitions/ResponseOcupacionesCercanasDemandante'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: El servidor no pudo encontrar las ocupaciones
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/gap/base-profiles/{applicant-base-code}/target-profiles/{applicant-target-code}':
+    get:
+      tags:
+        - gap-controller-impl
+      summary: Diferencias entre dos perfiles competenciales
+      description: >-
+        El algoritmo devuelve las competencias que le faltan el <b>perfil 1 (applicant-code-base)</b> respecto del</br> <b>perfil 2 (applicant-code-target)</b>.<br> Por ejemplo. si el perfil 1 tiene la competencia <b>COMP001 con nivel MEDI con peso 8</b> y el perfil 2 tiene <b>COMP001 con nivel EXPE con peso 10</b>, el algoritmo devolvera esta competencia <b>(COMP001)</b> y la <b>diferencia entre sus pesos = 2</b>.<br> Cuando el perfil 2 no tiene una competencia que no esta en el perfil 1 esta es automaticamente agregada a la lista.<br> Y cuando el perfil 1 tiene una competencia con nivel mayor a la del perfil 2 esta no es incluida en la lista
+      operationId: obtenerDiferenciasEntrePerfilesCompetencialesUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: applicant-base-code
+          in: path
+          description: Código de la persona base
+          required: true
+          type: string
+        - name: applicant-target-code
+          in: path
+          description: Código de la persona a llegar
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseDiferenciaPerfilesCompetenciales'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: >-
+            Cuando se ingresa url mal formadas o un registro no encontrado en
+            Base Datos
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+definitions:
+  DiferenciaPerfilesCompetencialesDTO:
+    type: object
+    properties:
+      skill-code:
+        type: string
+      level-difference:
+        type: integer
+        format: int32
+    title: DiferenciaPerfilesCompetencialesDTO
+  ErrorDetails:
+    type: object
+    properties:
+      details:
+        type: string
+      message:
+        type: string
+      timestamp:
+        type: string
+        format: date-time
+    title: ErrorDetails
+  ErrorDetailsFields:
+    type: object
+    properties:
+      campos:
+        type: array
+        items:
+          $ref: '#/definitions/InvalidFields'
+      estado:
+        type: integer
+        format: int32
+      mensaje:
+        type: string
+    title: ErrorDetailsFields
+  GenericResponseDTO«DiferenciaPerfilesCompetencialesDTO»:
+    type: object
+    properties:
+      message:
+        type: string
+      respuesta:
+        $ref: '#/definitions/DiferenciaPerfilesCompetencialesDTO'
+      respuestas:
+        type: array
+        items:
+          type: object
+      validaciones:
+        type: array
+        items:
+          $ref: '#/definitions/InvalidFields'
+    title: GenericResponseDTO«DiferenciaPerfilesCompetencialesDTO»
+  InvalidFields:
+    type: object
+    properties:
+      mensaje:
+        type: string
+      nombreCampo:
+        type: string
+    title: InvalidFields
+  Link:
+    type: object
+    properties:
+      href:
+        type: string
+      templated:
+        type: boolean
+    title: Link
+  ListResponseDTO:
+    type: object
+    properties:
+      occupation-code:
+        type: string
+      missing-list-of-required:
+        type: array
+        items:
+          $ref: '#/definitions/SkillDTO'
+      missing-list-of-optional:
+        type: array
+        items:
+          $ref: '#/definitions/SkillDTO'
+      list-of-required:
+        type: array
+        items:
+          $ref: '#/definitions/SkillDTO'
+      list-of-optional:
+        type: array
+        items:
+          $ref: '#/definitions/SkillDTO'
+      quantifiable-value:
+        type: string
+    title: ListResponseDTO
+  'Map«string,Link»':
+    type: object
+    title: 'Map«string,Link»'
+    additionalProperties:
+      $ref: '#/definitions/Link'
+  ModelAndView:
+    type: object
+    properties:
+      empty:
+        type: boolean
+      model:
+        type: object
+      modelMap:
+        type: object
+        additionalProperties:
+          type: object
+      reference:
+        type: boolean
+      status:
+        type: string
+        enum:
+          - '100'
+          - '101'
+          - '102'
+          - '103'
+          - '200'
+          - '201'
+          - '202'
+          - '203'
+          - '204'
+          - '205'
+          - '206'
+          - '207'
+          - '208'
+          - '226'
+          - '300'
+          - '301'
+          - '302'
+          - '303'
+          - '304'
+          - '305'
+          - '307'
+          - '308'
+          - '400'
+          - '401'
+          - '402'
+          - '403'
+          - '404'
+          - '405'
+          - '406'
+          - '407'
+          - '408'
+          - '409'
+          - '410'
+          - '411'
+          - '412'
+          - '413'
+          - '414'
+          - '415'
+          - '416'
+          - '417'
+          - '418'
+          - '419'
+          - '420'
+          - '421'
+          - '422'
+          - '423'
+          - '424'
+          - '426'
+          - '428'
+          - '429'
+          - '431'
+          - '451'
+          - '500'
+          - '501'
+          - '502'
+          - '503'
+          - '504'
+          - '505'
+          - '506'
+          - '507'
+          - '508'
+          - '509'
+          - '510'
+          - '511'
+      view:
+        $ref: '#/definitions/View'
+      viewName:
+        type: string
+    title: ModelAndView
+  OcupacionDTO:
+    type: object
+    properties:
+      occupation-code:
+        type: string
+      list-of-required-skills:
+        type: array
+        items:
+          $ref: '#/definitions/SkillDTO'
+      list-of-optional-skills:
+        type: array
+        items:
+          $ref: '#/definitions/SkillDTO'
+    title: OcupacionDTO
+  OcupacionesCercanasDTO:
+    type: object
+    properties:
+      occupation:
+        $ref: '#/definitions/OcupacionDTO'
+      GAP_value:
+        type: string
+    title: OcupacionesCercanasDTO
+  ResponseDiferenciaPerfilesCompetenciales:
+    type: object
+    properties:
+      message:
+        type: string
+      answers:
+        type: array
+        items:
+          $ref: '#/definitions/DiferenciaPerfilesCompetencialesDTO'
+    title: ResponseDiferenciaPerfilesCompetenciales
+  ResponseListarCompetenciasOcupacionGap:
+    type: object
+    properties:
+      message:
+        type: string
+      answers:
+        type: array
+        items:
+          $ref: '#/definitions/ListResponseDTO'
+    title: ResponseListarCompetenciasOcupacionGap
+  ResponseOcupacionesCercanasDemandante:
+    type: object
+    properties:
+      message:
+        type: string
+      answers:
+        type: array
+        items:
+          $ref: '#/definitions/OcupacionesCercanasDTO'
+    title: ResponseOcupacionesCercanasDemandante
+  SkillDTO:
+    type: object
+    properties:
+      skill-code:
+        type: string
+    title: SkillDTO
+  View:
+    type: object
+    properties:
+      contentType:
+        type: string
+    title: View

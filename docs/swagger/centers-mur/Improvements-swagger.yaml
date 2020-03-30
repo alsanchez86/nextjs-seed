@@ -1,0 +1,3014 @@
+swagger: '2.0'
+info:
+  description: Api Documentation
+  version: '1.0'
+  title: Api Documentation
+  termsOfService: 'urn:tos'
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0'
+host: 'localhost:8080'
+basePath: /
+tags:
+  - name: Actions
+    description: Accion Controller Impl
+  - name: Improvements
+    description: Area Mejora Controller Impl
+  - name: Objectives
+    description: Objetivo Controller Impl
+  - name: Scopes
+    description: Ambito Controller Impl
+  - name: basic-error-controller
+    description: Basic Error Controller
+  - name: operation-handler
+    description: Operation Handler
+  - name: web-mvc-endpoint-handler-mapping
+    description: Web Mvc Endpoint Handler Mapping
+paths:
+  /actions:
+    get:
+      tags:
+        - Actions
+      summary: Listar o buscar acciones
+      description: >-
+        Servicio que permite listar o buscar las acciones por título, descripción
+        o código <br>
+        <b>/actions?title={titulo}&description={descripcion}&action-code={codigo}&page=0&size=1&sortBy=action-code
+        </b>
+      operationId: listarBuscarAccionUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: title
+          in: query
+          description: Valor para título
+          required: false
+          type: string
+        - name: description
+          in: query
+          description: Valor para descripción
+          required: false
+          type: string
+        - name: action-code
+          in: query
+          description: Valor para código de acción
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: El número de página a mostrar
+          required: false
+          type: string
+          default: '0'
+        - name: size
+          in: query
+          description: Cantidad de registros por página
+          required: false
+          type: string
+          default: '10'
+        - name: sortBy
+          in: query
+          description: Campo y tipo por el cual se desea ordenar
+          required: false
+          type: string
+          default: action-code
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseListOrSearchActions'
+    post:
+      tags:
+        - Actions
+      summary: Crear acción
+      description: Servicio que permite crear una acción
+      operationId: crearAccionUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: crearAccionDTO
+          description: Datos de la acción que son necesarios para añadirlo al sistema.
+          required: true
+          schema:
+            $ref: '#/definitions/CrearAccionDTO'
+      responses:
+        '201':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePostCreateActions'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+  /actions/active:
+    get:
+      tags:
+        - Actions
+      summary: Listar las acciones activas no asociadas a un demandante
+      description: >-
+        Servicio que permite listar todas las acciones activas no asociadas a un
+        demandante
+      operationId: listarAccionActivaUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetActionsActive'
+  '/actions/{action-code}':
+    get:
+      tags:
+        - Actions
+      summary: Obtener acción
+      description: Servicio que permite obtener el detalle de una acción
+      operationId: obtenerAccionUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: action-code
+          in: path
+          description: Action code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetAction'
+        '404':
+          description: El servidor no pudo obtener la acción
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+    put:
+      tags:
+        - Actions
+      summary: Modificar o cambiar estado de una acción
+      description: Servicio que permite modificar una acción y cambiar el estado de esta si es que en el body solo se envía el código de estado y el usuario de modificación. 
+      operationId: modificarAccionUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: action-code
+          in: path
+          description: Action code to modify
+          required: true
+          type: string
+        - in: body
+          name: modificarAccionDTO
+          description: Datos de la acción que son necesarios para actualizar sus campos.
+          required: true
+          schema:
+            $ref: '#/definitions/ModificarAccionDTO'
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePutAction'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo encontrar la acción
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/actions/{action-code}/applicants/{applicant-code}':
+    post:
+      tags:
+        - Actions
+      summary: Crear la relación de acción a un objetivo del demandante
+      description: >-
+        Servicio que permite crear la relacion entre un acción y un objetivo
+        asociado al demandante
+      operationId: asociarAccionObjetivoUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: action-code
+          in: path
+          description: Action code
+          required: true
+          type: string
+        - name: applicant-code
+          in: path
+          description: Applicant code
+          required: true
+          type: string
+        - in: body
+          name: asociarObjetivoDemandanteAccionDTO
+          description: Request del metodo.
+          required: true
+          schema:
+            $ref: '#/definitions/AsociarObjetivoDemandanteAccionDTO'
+      responses:
+        '201':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePostActionObjectiveApplicant'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo encontrar la relación
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+    put:
+      tags:
+        - Actions
+      summary: Actualizar estado de la relación de acción y demandante
+      description: >-
+        Servicio que permite actualizar el estado de una acción asociada a un
+        demandante. (Al cambiar el estado a REJECTED, tiene funcionalidad diferente a los de PENDING Y FINISHED)
+      operationId: cambiarEstadoAccionUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: action-code
+          in: path
+          description: Código de la acción
+          required: true
+          type: string
+        - name: applicant-code
+          in: path
+          description: Código del demandante
+          required: true
+          type: string
+        - in: body
+          name: cambiarEstadoObjetoDTO
+          description: Código del estado y usuario de modificación.
+          required: true
+          schema:
+            $ref: '#/definitions/CambiarEstadoObjetoDTO'
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePutActionObjectiveApplicant'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo encontrar la relación
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  /actuator:
+    get:
+      tags:
+        - web-mvc-endpoint-handler-mapping
+      summary: links
+      operationId: linksUsingGET
+      produces:
+        - application/json
+        - application/vnd.spring-boot.actuator.v2+json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+              additionalProperties:
+                $ref: '#/definitions/Link'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /actuator/health:
+    get:
+      tags:
+        - operation-handler
+      summary: handle
+      operationId: handleUsingGET
+      produces:
+        - application/json
+        - application/vnd.spring-boot.actuator.v2+json
+      parameters:
+        - in: body
+          name: body
+          description: body
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /actuator/info:
+    get:
+      tags:
+        - operation-handler
+      summary: handle
+      operationId: handleUsingGET_1
+      produces:
+        - application/json
+        - application/vnd.spring-boot.actuator.v2+json
+      parameters:
+        - in: body
+          name: body
+          description: body
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /error:
+    get:
+      tags:
+        - basic-error-controller
+      summary: error
+      operationId: errorUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    head:
+      tags:
+        - basic-error-controller
+      summary: error
+      operationId: errorUsingHEAD
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    post:
+      tags:
+        - basic-error-controller
+      summary: error
+      operationId: errorUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - basic-error-controller
+      summary: error
+      operationId: errorUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - basic-error-controller
+      summary: error
+      operationId: errorUsingDELETE
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    options:
+      tags:
+        - basic-error-controller
+      summary: error
+      operationId: errorUsingOPTIONS
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - basic-error-controller
+      summary: error
+      operationId: errorUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /improvements:
+    get:
+      tags:
+        - Improvements
+      summary: Listar o buscar áreas de mejora.
+      description: >-
+        Servicio que permite listar o buscar las áreas de mejora por título, descripción
+        o código <br>
+        <b>/improvements?title={titulo}&description={descripcion}&improvement-code={codigo}&page=0&size=1&sortBy=improvement-code
+        </b>
+      operationId: listarBuscarAreaMejoraUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: title
+          in: query
+          description: Valor para título
+          required: false
+          type: string
+        - name: description
+          in: query
+          description: Valor para descripción
+          required: false
+          type: string
+        - name: improvement-code
+          in: query
+          description: Valor para código de área de mejora
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: El número de página a mostrar
+          required: false
+          type: string
+          default: '0'
+        - name: size
+          in: query
+          description: Cantidad de registros por página
+          required: false
+          type: string
+          default: '10'
+        - name: sortBy
+          in: query
+          description: Campo y tipo por el cual se desea ordenar
+          required: false
+          type: string
+          default: improvement-code
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetImprovements'
+    post:
+      tags:
+        - Improvements
+      summary: Crear área de mejora
+      description: Servicio que permite crear un área de mejora y sus objetivos
+      operationId: crearAreaMejoraUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: areaMejoraDTO
+          description: Datos del área de mejora a ser registrado en la BD.
+          required: true
+          schema:
+            $ref: '#/definitions/CrearAreaMejoraDTO'
+      responses:
+        '201':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePostImprovements'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+  '/improvements/applicants/{applicant-code}':
+    get:
+      tags:
+        - Improvements
+      summary: Listar las áreas de mejora de un demandante
+      description: >-
+        Servicio que permite listar las áreas de mejoras asociadas a un
+        demandante. Puede ser detallada/reducida <br>
+        <b>/improvements/applicants/{applicant-code}?query=reducida&page=0&size=1&sortBy=improvement.improvement-code</b>
+      operationId: consultarAreaMejoraUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: applicant-code
+          in: path
+          description: Applicant code
+          required: true
+          type: string
+        - name: query
+          in: query
+          description: Detallada/Reducida (información de las areas de mejora)
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: El número de página a mostrar
+          required: false
+          type: string
+          default: '0'
+        - name: size
+          in: query
+          description: Cantidad de registros por página
+          required: false
+          type: string
+          default: '10'
+        - name: sortBy
+          in: query
+          description: Campo y el tipo por el cual se desea ordenar
+          required: false
+          type: string
+          default: improvement.improvement-code
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetImprovementApplicantsByApplicantCode'
+        '404':
+          description: >-
+            Cuando se ingresa url mal formadas o un registro no encontrado en
+            Base Datos
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/improvements/{improvement-code}':
+    get:
+      tags:
+        - Improvements
+      summary: Obtener área de mejora
+      description: Servicio que permite obtener el detalle de un área de mejora
+      operationId: obtenerAreaMejoraUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: improvement-code
+          in: path
+          description: Improvement code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetImprovementsByImprovementCode'
+        '404':
+          description: El servidor no pudo obtener el área de mejora
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+    put:
+      tags:
+        - Improvements
+      summary: Modificar o cambiar estado de un área de mejora
+      description: Servicio que permite modificar un área de mejora y cambiar el estado de esta si es que en el body solo se envía el código de estado y el usuario de modificación. 
+      operationId: modificarAreaMejoraUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: improvement-code
+          in: path
+          description: Improvement code
+          required: true
+          type: string
+        - in: body
+          name: modificarAreaMejoraDTO
+          description: Datos del área de mejora a ser modificado en la BD.
+          required: false
+          schema:
+            $ref: '#/definitions/ModificarAreaMejoraDTO'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ResponsePutImprovementByImprovementCode'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo realizar la modificación del área de mejora
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/improvements/{improvement-code}/applicants/{applicant-code}':
+    post:
+      tags:
+        - Improvements
+      summary: Crear la relación de un área de mejora y un demandante
+      description: Servicio que permite asociar un área de mejora y un demandante
+      operationId: asociarAreaMejoraDemandanteUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: improvement-code
+          in: path
+          description: Improvement code
+          required: true
+          type: string
+        - name: applicant-code
+          in: path
+          description: Applicant code
+          required: true
+          type: string
+        - in: body
+          name: asociarAreaDemandanteDTO
+          description: Request del metodo.
+          required: true
+          schema:
+            $ref: '#/definitions/AsociarAreaDemandanteDTO'
+      responses:
+        '201':
+          description: Se ha asociado el área de mejora al demandante
+          schema:
+            $ref: '#/definitions/ResponsePostImprovementsByImprovementCodeApplicantsApplicantCode'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: Codigo de area de mejora no existe
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+    put:
+      tags:
+        - Improvements
+      summary: Actualizar estado de la relación del área de mejora y demandante
+      description: Servicio que permite actualizar el estado de un área de mejora asociada a un
+        demandante. (Al cambiar el estado a REJECTED, tiene funcionalidad diferente a los de PENDING Y FINISHED)
+      operationId: cambiarEstadoAreaMejoraDemandanteUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: improvement-code
+          in: path
+          description: Improvement code
+          required: true
+          type: string
+        - name: applicant-code
+          in: path
+          description: Applicant code
+          required: true
+          type: string
+        - in: body
+          name: cambiarEstadoObjetoDTO
+          description: Request del metodo.
+          required: true
+          schema:
+            $ref: '#/definitions/CambiarEstadoObjetoDTO'
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePutImprovementsByImprovementCodeApplicantsApplicantCode'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo encontrar la relación
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/improvements/{improvement-code}/objectives':
+    get:
+      tags:
+        - Improvements
+      summary: Listar los objetivos de un área de mejora
+      description: Servicio que permite listar los objetivos de un área de mejora </br>
+        <b> improvements/{improvement-code}/objectives?page=0&size=1&sortBy=objective-code
+      operationId: consultarObjetivosAreaUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: improvement-code
+          in: path
+          description: Improvement code
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: El número de página a mostrar
+          required: false
+          type: string
+          default: '0'
+        - name: size
+          in: query
+          description: Cantidad de registros por página
+          required: false
+          type: string
+          default: '10'
+        - name: sortBy
+          in: query
+          description: Campo y tipo por el cual se desea ordenar
+          required: false
+          type: string
+          default: objective-code
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetImprovementsImprovementCodeObjectives'
+        '404':
+          description: >-
+            Cuando se ingresa url mal formadas o un registro no encontrado en
+            Base Datos
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/improvements/{improvement-code}/objectives/{objective-code}':
+    post:
+      tags:
+        - Improvements
+      summary: Añadir un objetivo a un area de mejora del catálogo
+      description: >-
+        Servicio que permite Añadir un objetivo a un area de mejora del catálogo
+      operationId: asociarObjetivoAreaMejoraUsingPOST_1
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: improvement-code
+          in: path
+          description: Improvement code
+          required: true
+          type: string
+        - name: objective-code
+          in: path
+          description: Objective code
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Request del metodo.
+          required: true
+          schema:
+            $ref: '#/definitions/ModificacionDTO'
+      responses:
+        '201':
+          description: Operación Exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePostImprovementsImprovementCodeObjectivesObjectiveCode'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: Códigos no encontrados
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+    delete:
+      tags:
+        - Improvements
+      summary: Quitar un objetivo de un área de mejora
+      description: >-
+        Servicio que permite quitar un objetivo de un área de mejora
+      operationId: quitarObjetivoAreaMejoraUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: improvement-code
+          in: path
+          description: Improvement code.
+          required: true
+          type: string
+        - name: objective-code
+          in: path
+          description: Objective code.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Request del metodo.
+          required: true
+          schema:
+            $ref: '#/definitions/ModificacionDTO'
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseDeleteImprovementsImprovementCodeObjectivesObjectiveCode'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo encontrar la relacion entre ámbito y demandante
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  /objectives:
+    get:
+      tags:
+        - Objectives
+      summary: Listar o buscar objetivos
+      description: >-
+        Servicio que permite listar o buscar los objetivos por título, descripción
+        o código <br>
+        <b>/objectives?title={titulo}&description={descripcion}&objective-code={codigo}&page=0&size=1&sortBy=objective-code
+        </b>
+      operationId: listarBuscarObjetivoUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: title
+          in: query
+          description: Valor para título
+          required: false
+          type: string
+        - name: description
+          in: query
+          description: Valor para descripción
+          required: false
+          type: string
+        - name: objective-code
+          in: query
+          description: Valor para código de objetivo
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: El número de página a mostrar
+          required: false
+          type: string
+          default: '0'
+        - name: size
+          in: query
+          description: Cantidad de registros por página
+          required: false
+          type: string
+          default: '10'
+        - name: sortBy
+          in: query
+          description: Campo y tipo por el cual se desea ordenar
+          required: false
+          type: string
+          default: objective-code
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseListSearchObjectives'
+    post:
+      tags:
+        - Objectives
+      summary: Crear objetivo
+      description: ' Servicio que permite crear un objetivo sin acciones, necesario asociar/añadir como mínimo una acción'
+      operationId: crearObjetivoUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: crearObjetivoDTO
+          description: Datos del ámbito que son necesarios para añadirlo al sistema.
+          required: true
+          schema:
+            $ref: '#/definitions/CrearObjetivoDTO'
+      responses:
+        '200':
+          description: >-
+            No se ha podido crear el objetivo porque no tiene almenos una acción
+            valida
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+        '201':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePostCreateObjective'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+  /objectives/active:
+    get:
+      tags:
+        - Objectives
+      summary: Listar los objetivos activos no asociados a un área de mejora
+      description: >-
+        Servicio que permite listar todos los objetivos activos no asociados a
+        un área de mejora
+      operationId: listarObjetivosActivosNoAsociadosAreaMejoraUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetObjectivesActive'
+  '/objectives/{objective-code}':
+    get:
+      tags:
+        - Objectives
+      summary: Obtener objetivo
+      description: Servicio que permite obtener el detalle de un objetivo
+      operationId: obtenerObjetivoUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: objective-code
+          in: path
+          description: Objective code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetObjective'
+        '404':
+          description: El servidor no pudo obtener el objetivo
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+    put:
+      tags:
+        - Objectives
+      summary: Modificar o cambiar estado de un Objetivo del catálogo
+      description: >-
+        Servicio que permite modificar un objetivo y cambiar el estado de este si es que en el body solo se envía el código de estado y el usuario de modificación. 
+      operationId: modificarObjetivoCatalogoUsingPUT
+      consumes:
+        - application/json;charset=UTF-8
+      produces:
+        - application/json;charset=UTF-8
+      parameters:
+        - name: objective-code
+          in: path
+          description: Objective code
+          required: true
+          type: string
+        - in: body
+          name: objetivoCatalogoDTO
+          description: Datos del objetivo a actualizar
+          required: true
+          schema:
+            $ref: '#/definitions/ModificarObjetivoCatalogoRequestDTO'
+      responses:
+        '200':
+          description: El objetivo fue modificado exitosamente
+          schema:
+            $ref: '#/definitions/ResponsePutObjective'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo encontrar la relación
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/objectives/{objective-code}/actions':
+    get:
+      tags:
+        - Objectives
+      summary: Listar las acciones de un objetivo
+      description: Servicio que permite listar las acciones de un objetivo  <br> 
+        <b> objectives/{objective-code}/actions?page=0&size=1&sortBy=action-code
+      operationId: consultarAccionesObjetivoUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: objective-code
+          in: path
+          description: Objective code
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: Número de página
+          required: false
+          type: string
+          default: '0'
+        - name: size
+          in: query
+          description: Tamaño de página
+          required: false
+          type: string
+          default: '10'
+        - name: sortBy
+          in: query
+          description: Campo o tipo por el cual se desea ordenar
+          required: false
+          type: string
+          default: action-code
+      responses:
+        '200':
+          description: Operacion exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetActionsObjective'
+        '404':
+          description: El servidor no pudo consultar las acciones para dicho objetivo
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/objectives/{objective-code}/actions/{action-code}':
+    post:
+      tags:
+        - Objectives
+      summary: Crear la relación de acción y un objetivo
+      description: Servicio que permite crear la relación de una acción y un objetivo
+      operationId: asociarAccionObjetivoUsingPOST_1
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: objective-code
+          in: path
+          description: Objective code
+          required: true
+          type: string
+        - name: action-code
+          in: path
+          description: Action code
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Request del metodo.
+          required: true
+          schema:
+            $ref: '#/definitions/ModificacionDTO'
+      responses:
+        '201':
+          description: Operación Exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePostActionObjective'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'    
+        '404':
+          description: Códigos no encontrados
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+    delete:
+      tags:
+        - Objectives
+      summary: Quitar una acción de un objetivo
+      description: >-
+        Servicio que permite quitar una acción de un objetivo
+      operationId: quitarAccionObjetivoUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: objective-code
+          in: path
+          description: Objective code
+          required: true
+          type: string
+        - name: action-code
+          in: path
+          description: Action code
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Request del metodo.
+          required: true
+          schema:
+            $ref: '#/definitions/ModificacionDTO'
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseDeleteActionObjective'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo encontrar la relación
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/objectives/{objective-code}/applicants/{applicant-code}':
+    post:
+      tags:
+        - Objectives
+      summary: Crear la relación de objetivo y área de mejora
+      description: Servicio que permite asociar un objetivo y un área de mejora
+      operationId: asociarObjetivoAreaMejoraUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: objective-code
+          in: path
+          description: Objective code
+          required: true
+          type: string
+        - name: applicant-code
+          in: path
+          description: Applicant code
+          required: true
+          type: string
+        - in: body
+          name: asociarObjetivoDemandanteDTO
+          description: Request del metodo.
+          required: true
+          schema:
+            $ref: '#/definitions/AsociarObjetivoDemandanteDTO'
+      responses:
+        '201':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePostObjectiveImprovementApplicant'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo realizar la creación de la relación
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+    put:
+      tags:
+        - Objectives
+      summary: Actualizar el estado de la relación objetivo y un demandante
+      description: >-
+        Servicio que permite actualizar el estado de una acción asociada a un
+        demandante. (Al cambiar el estado a REJECTED, tiene funcionalidad diferente a los de PENDING Y FINISHED)
+      operationId: cambiarQuitarEstadoRealizadoObjetivoDemandanteUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: objective-code
+          in: path
+          description: Objective code
+          required: true
+          type: string
+        - name: applicant-code
+          in: path
+          description: Applicant code
+          required: true
+          type: string
+        - in: body
+          name: cambiarEstadoObjetoDTO
+          description: Código del estado.
+          required: true
+          schema:
+            $ref: '#/definitions/CambiarEstadoObjetoDTO'
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePutObjectiveImprovementApplicant'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo encontrar la relación
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  /scopes:
+    get:
+      tags:
+        - Scopes
+      summary: Listar o buscar ámbitos.
+      description: >-
+        Servicio que permite listar o buscar los ámbitos por título, descripción y código
+        <br>
+        <b>/scopes?title={titulo}&description={descripcion}&scope-code={codigo}&page=0&size=1&sortBy=scope-code</b>
+      operationId: buscarAmbitosUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: title
+          in: query
+          description: Valor para título
+          required: false
+          type: string
+        - name: description
+          in: query
+          description: Valor para descripción
+          required: false
+          type: string
+        - name: scope-code
+          in: query
+          description: Valor para código de ámbito
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Valor para número de página
+          required: false
+          type: string
+          default: '0'
+        - name: size
+          in: query
+          description: Valor para tamaño de página
+          required: false
+          type: string
+          default: '10'
+        - name: sortBy
+          in: query
+          description: Valor para campo y el tipo de orden de paginación
+          required: false
+          type: string
+          default: scope-code
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetScopes'
+    post:
+      tags:
+        - Scopes
+      summary: Crear ámbito
+      description: >-
+        Servicio que permite crear un ámbito, es necesario asociar/añadir como
+        mínimo un cuestionario
+      operationId: crearAmbitoUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: crearAmbitoDTO
+          description: Datos del ámbito que son necesarios para añadirlo al sistema.
+          required: false
+          schema:
+            $ref: '#/definitions/CrearAmbitoDTO'
+      responses:
+        '201':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePostScopes'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+  '/scopes/applicants/{applicant-code}':
+    get:
+      tags:
+        - Scopes
+      summary: Listar los ámbitos sin detalle de un demandante
+      description: Servicio que permite listar los ámbitos sin detalle de un demandante
+      operationId: consultarAmbitoSinDetalleDemandanteUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: applicant-code
+          in: path
+          description: Applicant code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Operacion exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetScopesApplicantsByCode'
+        '404':
+          description: El servidor no pudo encontrar los ámbitos para el demandante
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/scopes/applicants/{applicant-code}/details':
+    get:
+      tags:
+        - Scopes
+      summary: Listar los ámbitos y su detalle de un demandante
+      description: >-
+        Servicio que permite listar los ámbitos y sus detalles que tiene
+        asociado a un demandante
+      operationId: consultarAmbitosDemandanteUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: applicant-code
+          in: path
+          description: Applicant code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseScopesApplicantsByCodeDetails'
+        '404':
+          description: El servidor no pudo encontrar los ámbitos para el demandante
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/scopes/{scope-code}':
+    put:
+      tags:
+        - Scopes
+      summary: Modificar o cambiar el estado de un ámbito
+      description: Servicio que permite modificar un ámbito y cambiar el estado de este si es que en el body solo se envía el código de estado y el usuario de modificación.
+      operationId: modificarAmbitoUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: scope-code
+          in: path
+          description: Scope code
+          required: true
+          type: string
+        - in: body
+          name: modificarAmbitoDTO
+          description: Datos del ámbito que son necesarios para añadirlo al sistema.
+          required: true
+          schema:
+            $ref: '#/definitions/ModificarAmbitoDTO'
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePutScopesByCode'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo obtener el ámbito
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+    get:
+      tags:
+        - Scopes
+      summary: Obtener ámbito
+      description: Servicio que permite obtener el detalle de un ámbito
+      operationId: obtenerAmbitoUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: scope-code
+          in: path
+          description: Scope code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponseGetScopesByCode'
+        '404':
+          description: El servidor no pudo obtener el ámbito
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+  '/scopes/{scope-code}/applicants/{applicant-code}':
+    post:
+      tags:
+        - Scopes
+      summary: Crear la relación de ámbito y un demandante
+      description: Servicio que permite asociar un ámbito a un demandante
+      operationId: asociarAmbitoDemandanteUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: scope-code
+          in: path
+          description: Scope code
+          required: true
+          type: string
+        - name: applicant-code
+          in: path
+          description: Applicant code
+          required: true
+          type: string
+        - in: body
+          name: asociarAmbitoDemandante
+          description: Campos de auditoría
+          required: true
+          schema:
+            $ref: '#/definitions/AsociarAmbitoDemandanteDTO'
+      responses:
+        '201':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePostScopesByCodeApplicantsByCode'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo encontrar algunos de los recursos.
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+    put:
+      tags:
+        - Scopes
+      summary: Actualizar el estado de la relación ámbito y un demandante
+      description: >-
+        Servicio que permite actualizar el estado de la relación ámbito y un
+        demandante
+      operationId: descartarAmbitoDemandanteUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: scope-code
+          in: path
+          description: Scope code
+          required: true
+          type: string
+        - name: applicant-code
+          in: path
+          description: Applicant code
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Request del metodo.
+          required: true
+          schema:
+            $ref: '#/definitions/ModificacionAmbitoDemandanteDTO'
+      responses:
+        '200':
+          description: Operación exitosa.
+          schema:
+            $ref: '#/definitions/ResponsePutScopesByCodeApplicantsByCode'
+        '400':
+          description: La solicitud no pudo ser interpretada por una sintaxis inválida
+          schema:
+            $ref: '#/definitions/ErrorDetailsFields'
+        '404':
+          description: El servidor no pudo encontrar la relacion entre ámbito y demandante
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+definitions:
+  ResponseDataCreateActions:
+    type: object
+    properties:
+      action:
+        $ref: '#/definitions/AccionDTO'
+    title: ResponseDataCreateActions
+  AccionDTO:
+    type: object
+    properties:
+      action-code:
+        type: string
+      action-type:
+        $ref: '#/definitions/TipoAccionDTO'
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      description:
+        type: string
+      entity-state:
+        $ref: '#/definitions/EstadoDTO'
+      title:
+        type: string
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+      update-user:
+        type: string
+        
+    title: AccionDTO
+  AccionObjetivoDetalleDTO:
+    type: object
+    properties:
+      action-code:
+        type: string
+      title:
+        type: string
+    title: AccionObjetivoDetalleDTO
+  AccionReducidaDTO:
+    type: object
+    properties:
+      action-code:
+        type: string
+      title:
+        type: string
+    title: AccionReducidaDTO
+  AmbitoConCuestionarioDTO:
+    type: object
+    properties:
+      description:
+        type: string
+      entity-state:
+        $ref: '#/definitions/EstadoDTO'
+      applicant-questionnaries:
+        type: array
+        items:
+          $ref: '#/definitions/CuestionarioDemandanteDTO'
+      scope-code:
+        type: string
+      scope-type:
+        $ref: '#/definitions/TipoAmbitoDTO'
+      subtitle:
+        type: string
+      title:
+        type: string
+    title: AmbitoConCuestionarioDTO
+  AmbitoCuestionarioDTO:
+    type: object
+    properties:
+      questionary-code:
+        type: string
+    title: AmbitoCuestionarioDTO
+  AmbitoDTO:
+    type: object
+    properties:
+      questionnaries:
+        type: array
+        items:
+          $ref: '#/definitions/AmbitoCuestionarioDTO'
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      description:
+        type: string
+      entity-state:
+        $ref: '#/definitions/EstadoDTO'
+      scope-code:
+        type: string
+      scope-type-code:
+        $ref: '#/definitions/TipoAmbitoDTO'
+      subtitle:
+        type: string
+      title:
+        type: string
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      update-user:
+        type: string
+        
+    title: AmbitoDTO
+  AmbitoDemandanteConCuestionarioDTO:
+    type: object
+    properties:
+      origin:
+        $ref: '#/definitions/OrigenDTO'
+      relation-state:
+        $ref: '#/definitions/EstadoDTO'
+      scope:
+        $ref: '#/definitions/AmbitoConCuestionarioDTO'
+    title: AmbitoDemandanteConCuestionarioDTO
+  AmbitoDemandanteDTO:
+    type: object
+    properties:
+      applicant-code:
+        type: string
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      origin:
+        $ref: '#/definitions/OrigenDTO'
+      relation-state:
+        $ref: '#/definitions/EstadoDTO'
+      scope-code:
+        type: string
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      update-user:
+        type: string
+        
+    title: AmbitoDemandanteDTO
+  AmbitoReducidoConCuestionarioDTO:
+    type: object
+    properties:
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      entity-state:
+        $ref: '#/definitions/EstadoDTO'
+      questionnaries:
+        type: array
+        items:
+          $ref: '#/definitions/AmbitoCuestionarioDTO'
+      scope-code:
+        type: string
+      scope-type-code:
+        $ref: '#/definitions/TipoAmbitoDTO'
+      title:
+        type: string
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      update-user:
+        type: string
+        
+    title: AmbitoReducidoConCuestionarioDTO
+  AmbitoReducidoDTO:
+    type: object
+    properties:
+      relation-state:
+        $ref: '#/definitions/EstadoDTO'
+      scope-code:
+        type: string
+      subtitle:
+        type: string
+      title:
+        type: string
+    title: AmbitoReducidoDTO
+  AmbitoReducidoTotalAmbitosDTO:
+    type: object
+    properties:
+      scopes:
+        type: array
+        items:
+          $ref: '#/definitions/AmbitoReducidoConCuestionarioDTO'
+      scopes-total:
+        type: integer
+        format: int32
+    title: AmbitoReducidoTotalAmbitosDTO
+  ObjetivoAccionDemandanteDTO:
+    type: object
+    properties:
+      applicant-code:
+        type: string
+      applicant-objective:
+        $ref: '#/definitions/ObjetivoDemandanteResponseDTO'
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      improvement-code:
+        type: string
+      relation-state:
+        $ref: '#/definitions/EstadoDTO'
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      update-user:
+        type: string
+        
+    title: ObjetivoAccionDemandanteDTO
+  AreaDemandanteResponseDTO:
+    type: object
+    properties:
+      applicant-code:
+        type: string
+      applicant-objective:
+        $ref: '#/definitions/ObjetivoDemandanteDTO'
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      improvement-code:
+        type: string
+      relation-state:
+        $ref: '#/definitions/EstadoDTO'
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      update-user:
+        type: string
+        
+    title: AreaDemandanteResponseDTO
+  AreaMejoraDTO:
+    type: object
+    properties:
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      description:
+        type: string
+      entity-state:
+        $ref: '#/definitions/EstadoDTO'
+      improvement-code:
+        type: string
+      objectives:
+        type: array
+        items:
+          $ref: '#/definitions/ObjetivoReducidoDTO'
+      subtitle:
+        type: string
+      title:
+        type: string
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+      update-user:
+        type: string
+    title: AreaMejoraDTO
+  AreaMejoraDemandanteDTO:
+    type: object
+    properties:
+      applicant-code:
+        type: string
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+      creation-user:
+        type: string
+      improvement:
+        $ref: '#/definitions/AreaMejoraDTO'
+      relation-state:
+        $ref: '#/definitions/EstadoDTO'
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+      update-user:
+        type: string
+    title: AreaMejoraDemandanteDTO
+  AreaMejoraDemandanteObjetivoDTO:
+    type: object
+    properties:
+      improvement-code:
+        type: string
+      objective-code:
+        type: string
+      relation-state:
+        $ref: '#/definitions/EstadoDTO'
+    title: AreaMejoraDemandanteObjetivoDTO
+  AreaMejoraDemandanteResponseDTO:
+    type: object
+    properties:
+      applicant-code:
+        type: string
+      applicant-objectives:
+        type: array
+        items:
+          $ref: '#/definitions/ObjetivoDemandanteDTO'
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+      creation-user:
+        type: string
+      improvement-code:
+        type: string
+      relation-state:
+        $ref: '#/definitions/EstadoDTO'
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+      update-user:
+        type: string
+    title: AreaMejoraDemandanteResponseDTO
+  AreaMejoraSimpleDTO:
+    type: object
+    properties:
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+      creation-user:
+        type: string
+      description:
+        type: string
+      entity-state:
+        $ref: '#/definitions/EstadoDTO'
+      improvement-code:
+        type: string
+      subtitle:
+        type: string
+      title:
+        type: string
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+      update-user:
+        type: string
+    title: AreaMejoraSimpleDTO
+  AreaObjetivosDTO:
+    type: object
+    properties:
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+      creation-user:
+        type: string
+      description:
+        type: string
+      entity-state:
+        $ref: '#/definitions/EstadoDTO'
+      improvement-code:
+        type: string
+      objectives:
+        type: array
+        items:
+          $ref: '#/definitions/ObjetivoReducidoResponseDTO'
+      subtitle:
+        type: string
+      title:
+        type: string
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      update-user:
+        type: string
+        
+    title: AreaObjetivosDTO
+  AsociarAmbitoDemandanteDTO:
+    type: object
+    required:
+      - creation-user
+    properties:
+      creation-user:
+        type: string
+        
+    title: AsociarAmbitoDemandanteDTO
+  AsociarAreaDemandanteDTO:
+    type: object
+    required:
+      - state-code
+      - creation-user
+    properties:
+      creation-user:
+        type: string
+        
+      state-code:
+        type: string
+        
+    title: AsociarAreaDemandanteDTO
+  AsociarObjetivoDemandanteAccionDTO:
+    type: object
+    required:
+      - creation-user
+    properties:
+      creation-user:
+        type: string
+    title: AsociarObjetivoDemandanteAccionDTO
+  AsociarObjetivoDemandanteDTO:
+    type: object
+    required:
+      - creation-user
+    properties:
+      creation-user:
+        type: string
+    title: AsociarObjetivoDemandanteDTO
+  CambiarEstadoObjetoDTO:
+    type: object
+    required:
+      - state-code
+      - update-user
+    properties:
+      state-code:
+        type: string
+        
+      update-user:
+        type: string
+        
+    title: CambiarEstadoObjetoDTO
+  CrearAccionDTO:
+    type: object
+    required:
+      - creation-user
+      - title
+    properties:
+      action-type-code:
+        type: string
+      creation-user:
+        type: string
+        
+      description:
+        type: string
+      title:
+        type: string
+    title: CrearAccionDTO
+  CrearAmbitoDTO:
+    type: object
+    required:
+      - creation-user
+      - description
+      - scope-type-code
+      - state-code
+      - subtitle
+      - title
+    properties:
+      associated-questionnaries-code:
+        type: array
+        items:
+          type: string
+      creation-user:
+        type: string
+      description:
+        type: string
+      scope-type-code:
+        type: string
+      subtitle:
+        type: string
+      title:
+        type: string
+    title: CrearAmbitoDTO
+  CrearAreaMejoraDTO:
+    type: object
+    required:
+      - creation-user
+      - description
+      - subtitle
+      - title
+    properties:
+      creation-user:
+        type: string
+        
+      description:
+        type: string
+        
+      objectives-code:
+        type: array
+        items:
+          type: string
+      subtitle:
+        type: string
+        
+      title:
+        type: string
+        
+    title: CrearAreaMejoraDTO
+  CrearObjetivoDTO:
+    type: object
+    required:
+      - creation-user
+      - title
+      - associated-actions-code
+    properties:
+      associated-actions-code:
+        type: array
+        items:
+          type: string
+      creation-user:
+        type: string
+        
+      description:
+        type: string
+      title:
+        type: string
+    title: CrearObjetivoDTO
+  CuestionDTO:
+    type: object
+    properties:
+      attached:
+        type: string
+      erased:
+        type: boolean
+      question-code:
+        type: string
+      content:
+        type: string
+      contextualization:
+        type: string
+      entity-state:
+        type: string
+      update-date:
+        type: string
+        format: date-time
+      creation-date:
+        type: string
+        format: date-time
+      required:
+        type: boolean
+      answers:
+        type: array
+        items:
+          $ref: '#/definitions/RespuestaDTO'
+      allowed-answers:
+        type: integer
+        format: int32
+      results:
+        type: array
+        items:
+          $ref: '#/definitions/ResultadoDTO'
+      answer-type:
+        type: string
+      creation-user:
+        type: string
+      update-user:
+        type: string
+    title: CuestionDTO
+  CuestionarioDemandanteDTO:
+    type: object
+    properties:
+      questionary:
+          $ref: '#/definitions/CuestionarioDTO'
+      relation-state:
+        type: string
+    title: CuestionarioDemandanteDTO
+  CuestionarioDTO:
+    type: object
+    properties:
+      erased:
+        type: boolean
+      questionary-code:
+        type: string
+      questions:
+        type: array
+        items:
+          $ref: '#/definitions/CuestionDTO'
+      description:
+        type: string
+      entity-state:
+        type: string
+      update-date:
+        type: string
+        format: date-time
+      creation-date:
+        type: string
+        format: date-time
+      name:
+        type: string
+      creation-user:
+        type: string
+      update-user:
+        type: string
+    title: CuestionarioDTO
+  ErrorDetails:
+    type: object
+    properties:
+      details:
+        type: string
+      message:
+        type: string
+      timestamp:
+        type: string
+        format: date-time
+    title: ErrorDetails
+  ErrorDetailsFields:
+    type: object
+    properties:
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/InvalidFields'
+      state:
+        type: integer
+        format: int32
+      message:
+        type: string
+    title: ErrorDetailsFields
+  EstadoDTO:
+    type: object
+    properties:
+      name:
+        type: string
+      state-code:
+        type: string
+    title: EstadoDTO
+  InvalidFields:
+    type: object
+    properties:
+      message:
+        type: string
+      field-name:
+        type: string
+    title: InvalidFields
+  Link:
+    type: object
+    properties:
+      href:
+        type: string
+      templated:
+        type: boolean
+    title: Link
+  ModificacionDTO:
+    type: object
+    required:
+      - update-user
+    properties:
+      update-user:
+        type: string
+    title: ModificacionDTO
+  ModificacionAmbitoDemandanteDTO:
+    type: object
+    required:
+      - state-code
+      - update-user
+    properties:
+      state-code:
+        type: string
+      update-user:
+        type: string
+    title: ModificacionDTO
+  ModificarAccionDTO:
+    type: object
+    required:
+      - update-user
+    properties:
+      action-type-code:
+        type: string
+        
+      description:
+        type: string
+        
+      state-code:
+        type: string
+        
+      title:
+        type: string
+        
+      update-user:
+        type: string
+        
+    title: ModificarAccionDTO
+  ModificarAmbitoDTO:
+    type: object
+    required:
+      - update-user
+    properties:
+      associated-questionnaries-code:
+        type: array
+        items:
+          type: string
+      description:
+        type: string
+        
+      scope-type-code:
+        type: string
+        
+      state-code:
+        type: string
+        
+      subtitle:
+        type: string
+        
+      title:
+        type: string
+        
+      update-user:
+        type: string
+        
+    title: ModificarAmbitoDTO
+  ModificarAreaMejoraDTO:
+    type: object
+    required:
+      - update-user
+    properties:
+      description:
+        type: string
+        
+      subtitle:
+        type: string
+        
+      state-code:
+        type: string
+        
+      title:
+        type: string
+        
+      update-user:
+        type: string
+        
+    title: ModificarAreaMejoraDTO
+  ModificarObjetivoCatalogoRequestDTO:
+    type: object
+    required:
+      - update-user
+    properties:
+      description:
+        type: string
+        
+      title:
+        type: string
+      
+      state-code:
+        type: string
+        
+      update-user:
+        type: string
+        
+    title: ModificarObjetivoCatalogoRequestDTO
+  ModificarObjetivoCatalogoReponseDTO:
+    type: object
+    properties:
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      description:
+        type: string
+      objective-code:
+        type: string
+      title:
+        type: string
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      update-user:
+        type: string
+        
+    title: ModificarObjetivoCatalogoReponseDTO
+  ObjetivoDTO:
+    type: object
+    properties:
+      actions:
+        type: array
+        items:
+          $ref: '#/definitions/AccionObjetivoDetalleDTO'
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      description:
+        type: string
+      entity-state:
+        $ref: '#/definitions/EstadoDTO'
+      objective-code:
+        type: string
+      title:
+        type: string
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      update-user:
+        type: string
+        
+    title: ObjetivoDTO
+  ObjetivoDemandanteAccionDTO:
+    type: object
+    properties:
+      action-code:
+        type: string
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      relation-state:
+        $ref: '#/definitions/EstadoDTO'
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      update-user:
+        type: string
+        
+    title: ObjetivoDemandanteAccionDTO
+  ObjetivoDemandanteDTO:
+    type: object
+    properties:
+      applicant-actions:
+        type: array
+        items:
+          $ref: '#/definitions/ObjetivoDemandanteAccionDTO'
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      objective-code:
+        type: string
+      relation-state:
+        $ref: '#/definitions/EstadoDTO'
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      update-user:
+        type: string
+        
+    title: ObjetivoDemandanteDTO
+  ObjetivoDemandanteResponseDTO:
+    type: object
+    properties:
+      applicant-action:
+        $ref: '#/definitions/ObjetivoDemandanteAccionDTO'
+      creation-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      creation-user:
+        type: string
+        
+      objective-code:
+        type: string
+      relation-state:
+        $ref: '#/definitions/EstadoDTO'
+      update-date:
+        type: string
+        format: date
+        example: '2020-02-27'
+        
+      update-user:
+        type: string
+        
+    title: ObjetivoDemandanteResponseDTO
+  ObjetivoReducidoDTO:
+    type: object
+    properties:
+      actions:
+        type: array
+        items:
+          $ref: '#/definitions/AccionReducidaDTO'
+      description:
+        type: string
+      entity-state:
+        $ref: '#/definitions/EstadoDTO'
+      objective-code:
+        type: string
+      title:
+        type: string
+    title: ObjetivoReducidoDTO
+  ObjetivoReducidoResponseDTO:
+    type: object
+    properties:
+      description:
+        type: string
+      entity-state:
+        $ref: '#/definitions/EstadoDTO'
+      objective-code:
+        type: string
+      title:
+        type: string
+    title: ObjetivoReducidoResponseDTO
+  OrigenDTO:
+    type: object
+    properties:
+      name:
+        type: string
+      origin-code:
+        type: string
+    title: OrigenDTO
+  ResponsePostActionObjective:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataActionObjective'
+    title: ResponsePostActionObjective
+  ResponseDataActionObjective:
+    type: object
+    properties:
+      objective-action:
+        $ref: '#/definitions/ObjetivoReducidoDTO'
+    title: ResponseDataActionObjective
+  ResponsePostActionObjectiveApplicant:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataActionObjectiveApplicant'
+    title: ResponsePostActionObjectiveApplicant
+  ResponseDataActionObjectiveApplicant:
+    type: object
+    properties:
+      applicant-objective-action-relation:
+        $ref: '#/definitions/ObjetivoAccionDemandanteDTO'
+    title: ResponseDataActionObjectiveApplicant
+  ResponsePostObjectiveImprovementApplicant:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataPostObjectiveImprovementApplicant'
+    title: ResponsePostObjectiveImprovement
+  ResponseDataPostObjectiveImprovementApplicant:
+    type: object
+    properties:
+      applicant-improvement-objective-relation:
+        $ref: '#/definitions/AreaMejoraDemandanteObjetivoDTO'
+    title: ResponsePostObjectiveImprovement
+  ResponsePutObjectiveImprovementApplicant:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataPutObjectiveImprovementApplicant'
+    title: ResponsePutObjectiveImprovementApplicant
+  ResponseDataPutObjectiveImprovementApplicant:
+    type: object
+    properties:
+      applicant-improvement-objective-relation:
+        $ref: '#/definitions/AreaDemandanteResponseDTO'
+    title: ResponsePutObjectiveImprovementApplicant
+  ResponsePutActionObjectiveApplicant:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataActionObjectiveApplicant'
+    title: ResponsePutActionObjectiveApplicant
+  ResponseConsultarAccionesObjetivo:
+    type: object
+    properties:
+      actions:
+        type: array
+        items:
+          $ref: '#/definitions/AccionDTO'
+      actions-total:
+        type: integer
+        format: int32
+    title: ResponseConsultarAccionesObjetivo
+  ResponseGetActionsObjective:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseConsultarAccionesObjetivo'
+    title: ResponseGetActionsObjective
+  ResponsePostCreateActions:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataCreateActions'
+    title: ResponsePostCreateActions
+  ResponsePostCreateObjective:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataObjective'
+    title: ResponsePostCreateObjective
+  ResponseDataObjective:
+    type: object
+    properties:
+      objective:
+        $ref: '#/definitions/ObjetivoDTO'
+    title: ResponseDataObjective
+  ResponseListOrSearchActions:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseListarAccion'
+  ResponseListarAccion:
+    type: object
+    properties:
+      actions:
+        type: array
+        items:
+          $ref: '#/definitions/AccionDTO'
+      actions-total:
+        type: integer
+        format: int32
+    title: ResponseObtenerAccion
+  ResponseGetActionsActive:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataActionsActive'
+    title: ResponseGetActionsActive
+  ResponseDataActionsActive:
+    type: object
+    properties:
+      actions:
+        type: array
+        items:
+          $ref: '#/definitions/AccionDTO'
+    title: ResponseArrayActionsActive
+  ResponseListarObtenerObjetivo:
+    type: object
+    properties:
+      objectives:
+        type: array
+        items:
+          $ref: '#/definitions/ObjetivoDTO'
+      objectives-total:
+        type: integer
+        format: int32
+    title: ResponseObtenerObjetivo
+  ResponseListSearchObjectives:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseListarObtenerObjetivo'
+    title: ResponseListSearchObjectives
+  ResponseGetObjectivesActive:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        type: object
+        properties:
+          objectives:
+            $ref: '#/definitions/ResponseArrayObjectivesActive'
+    title: ResponseGetObjectivesActive
+  ResponseArrayObjectivesActive:
+    type: array
+    items:
+      $ref: '#/definitions/ObjetivoReducidoDTO'
+    title: ResponseArrayObjectivesActive
+  ResponseMessage:
+    type: object
+    properties:
+      'type':
+        type: string
+      alias:
+        type: string
+      message:
+        type: string
+    title: ResponseMessage
+  ResponseMessages:
+    type: array
+    items:
+      $ref: '#/definitions/ResponseMessage'
+  ResponsePutAction:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataAction'
+    title: ResponsePutAction
+  ResponsePutObjective:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataPutObjective'
+    title: ResponsePutObjective
+  ResponseDataPutObjective:
+    type: object
+    properties:
+      objective:
+        $ref: '#/definitions/ModificarObjetivoCatalogoReponseDTO'
+    title: ResponseDataPutObjective
+  ResponseGetAction:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataAction'
+    title: ResponseGetAction
+  ResponseDataAction:
+    type: object
+    properties:
+      action:
+        $ref: '#/definitions/AccionDTO'
+  ResponseGetObjective:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataObjective'
+    title: ResponseGetObjective
+  ResponseDeleteActionObjective:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataActionObjective'
+    title: ResponseDeleteActionObjective
+  RespuestaDTO:
+    type: object
+    properties:
+      answer-code:
+        type: string
+      text:
+        type: string
+    title: RespuestaDTO
+  ResultadoDTO:
+    type: object
+    properties:
+      answer-code:
+        type: string
+      answer-text:
+        type: string
+    title: ResultadoDTO
+  TipoAccionDTO:
+    type: object
+    properties:
+      action-type-code:
+        type: string
+      name:
+        type: string
+    title: TipoAccionDTO
+  TipoAmbitoDTO:
+    type: object
+    properties:
+      name:
+        type: string
+      scope-type-code:
+        type: string
+    title: TipoAmbitoDTO
+  ResponseGetImprovements:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseGetDataImprovements'
+  ResponseGetDataImprovements:
+    type: object
+    properties:
+      improvements:
+        type: array
+        items:
+          $ref: '#/definitions/AreaMejoraDTO'
+      improvements-total:
+        type: integer
+        format: int32
+    title: ResponseGetDataImprovements
+  ResponsePostImprovements:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponsePostDataImprovements'
+  ResponsePostDataImprovements:
+    type: object
+    properties:
+      improvement:
+        $ref: '#/definitions/AreaObjetivosDTO'
+      message:
+        type: string
+      validations:
+        type: array
+        items:
+          $ref: '#/definitions/InvalidFields'
+    title: ResponsePostDataImprovements
+  ResponseGetImprovementApplicantsByApplicantCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataImprovementApplicantsByApplicantCode'
+  ResponseDataImprovementApplicantsByApplicantCode:
+    type: object
+    properties:
+      applicant-improvements:
+        type: array
+        items:
+          $ref: '#/definitions/AreaMejoraDemandanteDTO'
+      improvements-total:
+        type: integer
+        format: int32
+    title: ResponseDataImprovementApplicantsByApplicantCode
+  ResponseGetImprovementsByImprovementCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseGetDataImprovementsByImprovementCode'
+  ResponseGetDataImprovementsByImprovementCode:
+    type: object
+    properties:
+      improvement:
+        $ref: '#/definitions/AreaMejoraDTO'
+    title: ResponseDataImprovementsByImprovementCode
+  ResponsePutImprovementByImprovementCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponsePutDataImprovementsByImprovementCode'
+  ResponsePutDataImprovementsByImprovementCode:
+    type: object
+    properties:
+      improvement:
+        $ref: '#/definitions/AreaMejoraSimpleDTO'
+    title: ResponsePutDataImprovementsByImprovementCode
+  ResponsePostImprovementsByImprovementCodeApplicantsApplicantCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponsePostDataImprovementsByImprovementCodeApplicantsApplicantCode'
+  ResponsePostDataImprovementsByImprovementCodeApplicantsApplicantCode:
+    type: object
+    properties:
+      applicant-improvement:
+        $ref: '#/definitions/AreaMejoraDemandanteDTO'
+    title: ResponsePostDataImprovementsByImprovementCodeApplicantsApplicantCode
+  ResponsePutImprovementsByImprovementCodeApplicantsApplicantCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponsePutDataImprovementsByImprovementCodeApplicantsApplicantCode'
+  ResponsePutDataImprovementsByImprovementCodeApplicantsApplicantCode:
+    type: object
+    properties:
+      applicant-improvement:
+        $ref: '#/definitions/AreaMejoraDemandanteResponseDTO'
+    title: ResponsePutDataImprovementsByImprovementCodeApplicantsApplicantCode
+  ResponseGetImprovementsImprovementCodeObjectives:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataImprovementsImprovementCodeObjectives'
+  ResponseDataImprovementsImprovementCodeObjectives:
+    type: object
+    properties:
+      objectives:
+        type: array
+        items:
+          $ref: '#/definitions/ObjetivoReducidoDTO'
+      objectives-total:
+        type: integer
+        format: int32
+    title: ResponseDataImprovementImprovementCodeObjectives
+  ResponsePostImprovementsImprovementCodeObjectivesObjectiveCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponsePostDataImprovementsImprovementCodeObjectivesObjectiveCode'
+  ResponsePostDataImprovementsImprovementCodeObjectivesObjectiveCode:
+    type: object
+    properties:
+      improvement-objective:
+        $ref: '#/definitions/AreaObjetivosDTO'
+    title: ResponsePostDataImprovementsImprovementCodeObjectivesObjectiveCode
+  ResponseDeleteImprovementsImprovementCodeObjectivesObjectiveCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDeleteDataImprovementsImprovementCodeObjectivesObjectiveCode'
+  ResponseDeleteDataImprovementsImprovementCodeObjectivesObjectiveCode:
+    type: object
+    properties:
+      improvement-objective:
+        $ref: '#/definitions/AreaMejoraDTO'
+    title: ResponseDeleteDataImprovementsImprovementCodeObjectivesObjectiveCode
+  ResponseGetScopes:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref : '#/definitions/AmbitoReducidoTotalAmbitosDTO'
+  ResponsePostScopes:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref : '#/definitions/ResponseDataScopes'
+  ResponseDataScopes:
+    type: object
+    properties:
+      scope:
+        $ref: '#/definitions/AmbitoDTO'
+  ResponseGetScopesApplicantsByCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref : '#/definitions/ResponseDataScopesApplicantsByCode'
+  ResponseDataScopesApplicantsByCode:
+    type: object
+    properties:
+      applicant-scopes:
+       $ref: '#/definitions/ResponseArrayScopesApplicantsByCode'
+  ResponseArrayScopesApplicantsByCode:
+    type: array
+    items:
+      $ref: '#/definitions/AmbitoReducidoDTO'
+  ResponseScopesApplicantsByCodeDetails:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref: '#/definitions/ResponseDataScopesApplicantsByCodeDetails'
+  ResponseDataScopesApplicantsByCodeDetails:
+    type: object
+    properties:
+      applicant-scopes:
+        $ref: '#/definitions/ResponseArrayScopesApplicantsByCodeDetails'
+  ResponseArrayScopesApplicantsByCodeDetails:
+    type: array
+    items:
+      $ref: '#/definitions/AmbitoDemandanteConCuestionarioDTO'
+  ResponsePutScopesByCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref : '#/definitions/ResponseDataScopesByCode'
+  ResponseDataScopesByCode:
+    type: object
+    properties:
+      scope:
+        $ref: '#/definitions/AmbitoDTO'
+  ResponseGetScopesByCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref : '#/definitions/ResponseDataGetScopesByCode'
+  ResponseDataGetScopesByCode:
+    type: object
+    properties:
+      scope:
+        $ref: '#/definitions/AmbitoDTO'
+  ResponsePostScopesByCodeApplicantsByCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref : '#/definitions/ResponseDataScopesByCodeApplicantsByCode'
+  ResponseDataScopesByCodeApplicantsByCode:
+    type: object
+    properties:
+      applicant-scope:
+        $ref: '#/definitions/AmbitoDemandanteDTO'
+  ResponsePutScopesByCodeApplicantsByCode:
+    type: object
+    properties:
+      messages:
+        $ref: '#/definitions/ResponseMessages'
+      data:
+        $ref : '#/definitions/ResponseDataPutScopesByCodeApplicantsByCode'
+  ResponseDataPutScopesByCodeApplicantsByCode:
+    type: object
+    properties:
+      applicant-scope:
+        $ref: '#/definitions/AmbitoDemandanteDTO'
+    title: ResponseDataPutScopesByCodeApplicantsByCode

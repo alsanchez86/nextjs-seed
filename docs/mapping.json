@@ -1,0 +1,66 @@
+[
+    {
+        "file": "swagger/centers-mur/Improvements-swagger.yaml",
+        "path": "improvements"
+    },
+    {
+        "file": "swagger/centers-mur/skills-swagger.yml",
+        "path": "skills"
+    },
+    {
+        "file": "swagger/centers-mur/swagger-gap.yaml",
+        "path": "gap"
+    },
+    {
+        "file": "swagger/centers-mur/swagger-questionary.yaml",
+        "path": "questionary"
+    },
+    {
+        "file": "swagger/dgi/swagger-occupation.json",
+        "path": "occupation"
+    },
+    {
+        "file": "swagger/dgi/swagger-qualification.json",
+        "path": "qualification"
+    },
+    {
+        "file": "swagger/dgi/swagger-skill.json",
+        "path": "skill"
+    },
+    {
+        "file": "swagger/dlm/activity.yaml",
+        "path": "activity"
+    },
+    {
+        "file": "swagger/dlm/candidate-citation.yml",
+        "path": "candidate-citation"
+    },
+    {
+        "file": "swagger/dlm/candidate.yaml",
+        "path": "candidate"
+    },
+    {
+        "file": "swagger/dlm/contact-info.yaml",
+        "path": "contact-info"
+    },
+    {
+        "file": "swagger/dlm/labor-experience.yaml",
+        "path": "labor-experience"
+    },
+    {
+        "file": "swagger/dlm/labor-preference.yaml",
+        "path": "labor-preference"
+    },
+    {
+        "file": "swagger/dlm/person.yaml",
+        "path": "person"
+    },
+    {
+        "file": "swagger/dlm/training.yaml",
+        "path": "training"
+    },
+    {
+        "file": "swagger/dlm/user.yaml",
+        "path": "user"
+    }
+]

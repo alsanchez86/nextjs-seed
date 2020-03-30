@@ -1,0 +1,15 @@
+version: '3.1'
+services:
+    nextjs:
+        ports:
+            - 8085:3000
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            PRIVATE_HOSTNAME: localhost
+            PRIVATE_PROTOCOL: http
+            PRIVATE_PORT: 3000
+            PUBLIC_HOSTNAME: metajob
+            PUBLIC_PROTOCOL: http
+            PUBLIC_PORT: 8085

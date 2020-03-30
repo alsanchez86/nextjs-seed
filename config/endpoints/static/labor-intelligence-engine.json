@@ -1,0 +1,16 @@
+[
+    {
+        "labor-recommendation": {
+            "protocol": "https",
+            "host": "dev.everjn.es",
+            "aux": "labor-intelligence-engine-recommendation"
+        }
+    },
+    {
+        "segmentation": {
+            "protocol": "https",
+            "host": "dev.everjn.es",
+            "aux": "labor-intelligence-engine-segmentation"
+        }
+    }
+]

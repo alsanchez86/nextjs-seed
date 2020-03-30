@@ -1,0 +1,16 @@
+[
+    {
+        "improvement-area": {
+            "protocol": "https",
+            "host": "dev.everjn.es",
+            "aux": "profiling-improvement-area"
+        }
+    },
+    {
+        "gap": {
+            "protocol": "https",
+            "host": "dev.everjn.es",
+            "aux": "skills-plus-occupations"
+        }
+    }
+]

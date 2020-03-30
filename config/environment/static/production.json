@@ -1,0 +1,14 @@
+{
+    "internal": {
+        "protocol": "http",
+        "host": "localhost",
+        "aux": "api",
+        "port": 3000
+    },
+    "external": {
+        "protocol": "https",
+        "host": "www.everjn.es",
+        "aux": "api",
+        "port": 8080
+    }
+}

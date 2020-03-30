@@ -1,0 +1,94 @@
+swagger: '2.0'
+info:
+  description: REST API Información detallada de la actividad del usuario en la aplicación
+  version: 1.0.0-SNAPSHOT
+  title: Información detallada de la actividad del usuario en la aplicación
+host: 'localhost:8888'
+basePath: /
+tags:
+  - name: Candidate
+    description: Operations related to a candidate of a user
+paths:
+  '/candidates/{id-user}':
+    get:
+      tags:
+        - Candidate
+      summary: Search for information on the latest candidates consulted by the user
+      description: Take out the information based on a user ID
+      operationId: getCandidatesByIdUserUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id-user
+          in: path
+          description: id-user
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Candidate'
+        '204':
+          description: NO_CONTENT
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Candidate'
+        '400':
+          description: BAD_REQUEST
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+definitions:
+  Candidate:
+    type: object
+    properties:
+      familyName:
+        type: array
+        description: Family names of a persona.
+
+        items:
+          type: string
+      givenName:
+        type: string
+        description: Given name of a person
+
+      idCandidate:
+        type: string
+        description: Candidate Identifier
+
+      photo:
+        type: string
+        description: Avatar of a candidate
+
+      preferenceJob:
+        type: array
+        description: List of all preferences jobs of a candidate
+
+        items:
+          $ref: '#/definitions/PreferenceJobProfile'
+    title: Candidate
+    description: A candidate is a type of data that contains the basic data
+  PreferenceJobProfile:
+    type: object
+    properties:
+      jobCode:
+        type: string
+        description: Job code of a concrete preference
+
+      jobName:
+        type: string
+        description: Job name of a concrete preference
+
+      priority:
+        type: integer
+        format: int32
+        description: Priority of a concrete preference
+
+    title: PreferenceJobProfile

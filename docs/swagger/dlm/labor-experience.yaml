@@ -1,0 +1,113 @@
+swagger: '2.0'
+info:
+  description: REST API Labor Experience
+  version: 1.0.0-SNAPSHOT
+  title: Information about a candidate´s labor experience
+host: 'localhost:8080'
+basePath: /
+tags:
+  - name: LaborExperienceProfile
+    description: Operations related to manage the labor experience of some person´s profile
+paths:
+  '/labor-experiences-profiles/{id-candidate}':
+    get:
+      tags:
+        - LaborExperienceProfile
+      summary: Search information about person´s labor experience.
+      operationId: getUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id-candidate
+          in: path
+          description: id-candidate
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/LaborExperience'
+        '400':
+          description: BAD_REQUEST
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: NOT_FOUND
+definitions:
+  LaborExperience:
+    type: object
+    properties:
+      idCandidate:
+        type: string
+      listPosition:
+        type: array
+        description: information about the employ`s position in an especific company
+        items:
+          $ref: '#/definitions/Position'
+    title: LaborExperience
+    description: Information about the experience that some people have in an especific job
+  JobCategory:
+    type: object
+    properties:
+      code:
+        type: string
+        description: code that defines the job category of job. ISCO based.
+      name:
+        type: string
+        description: name of the job category
+    title: JobCategoryProfile
+    description: name that defines the job category of job
+  Period:
+    type: object
+    properties:
+      current:
+        type: boolean
+        example: false
+        description: tells if the period is currently active
+      endDate:
+        type: string
+        format: date-time
+        description: date when the period finished
+      startDate:
+        type: string
+        format: date-time
+        description: date when the period started
+    title: PeriodProfile
+    description: period of time when the employ has been working
+  Position:
+    type: object
+    properties:
+      jobCategory:
+        description: category of the position in the company
+        $ref: '#/definitions/JobCategory'
+      laborDescription:
+        type: string
+        description: description of the worker`s labor
+      organization:
+        type: string
+        description: organization where the employ has been working
+      period:
+        description: period of time when the employ has been working
+        $ref: '#/definitions/Period'
+      position:
+        type: string
+        description: especific position inside the company
+      location:
+        description: location
+        $ref: '#/definitions/Location'
+    title: PositionProfile
+    description: Information about the employ`s position in a company
+  Location:
+    type: object
+    properties:
+      city: 
+        type: string
+        description: city
+      country:
+        type: string
+        description: country
+    title: LocationProfile
+    description: Information about experience location

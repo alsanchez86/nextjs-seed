@@ -1,0 +1,23 @@
+[
+    {
+        "occupations": {
+            "protocol": "https",
+            "host": "dev.everjn.es",
+            "aux": "profiling-gap"
+        }
+    },
+    {
+        "skills-plus": {
+            "protocol": "https",
+            "host": "dev.everjn.es",
+            "aux": "skills-plus-skills"
+        }
+    },
+    {
+        "qualifications": {
+            "protocol": "https",
+            "host": "dev.everjn.es",
+            "aux": "skills-plus-qualifications"
+        }
+    }
+]

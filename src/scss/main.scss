@@ -1,0 +1,30 @@
+@import "variables";
+
+// Vanilla
+body {
+    font-family: 'Arial';
+}
+
+a {
+    text-decoration: none;
+    color: blue;
+
+    &:hover {
+        opacity: 0.6;
+    }
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    margin: 5px 0;
+}
+
+h3 {
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+}

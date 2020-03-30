@@ -1,0 +1,152 @@
+swagger: '2.0'
+info:
+  description: REST API Training
+  version: 1.0.0-SNAPSHOT
+  title: Information about a candidate's training
+host: 'localhost:8080'
+basePath: /
+tags:
+  - name: Training Profile
+    description: Operations related to training profile
+paths:
+  '/trainings-profiles/{id-candidate}':
+    get:
+      tags:
+        - Training Profile
+      summary: 'Returns the formation of a candidate divided into two lists: educational training that has an Isced Level and a type of language (mother or foreign).'
+      description: LanguageType es materno/foranea;
+      operationId: getUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id-candidate
+          in: path
+          description: id-candidate
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TrainingProfile'
+        '400':
+          description: BAD_REQUEST
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: NOT_FOUND
+definitions:
+  CompetencyProfile:
+    type: object
+    properties:
+      cefrLevel:
+        type: string
+        description: Cefr level about competency
+
+      typeCompetency:
+        type: string
+        description: Type about competency
+
+    title: CompetencyProfile
+  EducationTrainingProfile:
+    type: object
+    properties:
+      description:
+        type: string
+        description: Description about education training
+
+      iscedLevel:
+        type: string
+        description: Isced level about education training
+
+      nameTitle:
+        type: string
+        description: Title about education training
+
+      organization:
+        description: Organization about education training
+
+        $ref: '#/definitions/OrganizationProfile'
+      period:
+        description: Period about specific education training
+
+        $ref: '#/definitions/PeriodProfile'
+    title: EducationTrainingProfile
+  LanguageTrainingProfile:
+    type: object
+    properties:
+      listCompetency:
+        type: array
+
+        items:
+          $ref: '#/definitions/CompetencyProfile'
+      nameLanguage:
+        type: string
+        description: Name of language
+
+      nameTitle:
+        type: string
+        description: Title of a language training
+
+      typeLanguage:
+        type: string
+        description: Type of language
+
+    title: LanguageTrainingProfile
+  OrganizationProfile:
+    type: object
+    properties:
+      city:
+        type: string
+        description: City location of an organization
+
+      country:
+        type: string
+        description: Country location of an organization
+
+      name:
+        type: string
+        description: Name of an organization
+
+    title: OrganizationProfile
+  PeriodProfile:
+    type: object
+    properties:
+      current:
+        type: boolean
+        example: false
+
+      endDate:
+        type: string
+        format: date-time
+        description: End of the date period
+
+      startDate:
+        type: string
+        format: date-time
+        description: Start of the date period
+
+    title: PeriodProfile
+  TrainingProfile:
+    type: object
+    properties:
+      idCandidate:
+        type: string
+        description: ID candidate
+
+      listEducationTraining:
+        type: array
+        description: All education training about a candidate
+
+        items:
+          $ref: '#/definitions/EducationTrainingProfile'
+      listLanguageTraining:
+        type: array
+        description: All language training about a candidate
+
+        items:
+          $ref: '#/definitions/LanguageTrainingProfile'
+    title: TrainingProfile
+    description: All information about training's candidate
