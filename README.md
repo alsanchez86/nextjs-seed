@@ -7,19 +7,19 @@
 
 ## Pasar variables de entorno al contenedor de docker
 
-docker-compose.yml
-    version: '3.1'
-    services:
-    nextjs:
-        ports:
-            - 8080:3000
-        build:
-            context: .
-            dockerfile: Dockerfile
-        environment:
-            PUBLIC_HOSTNAME: localhost
-            PUBLIC_PROTOCOL: https
-            PUBLIC_PORT: 8080
+    docker-compose.yml
+        version: '3.1'
+        services:
+        nextjs:
+            ports:
+                - 8080:3000
+            build:
+                context: .
+                dockerfile: Dockerfile
+            environment:
+                PUBLIC_HOSTNAME: localhost
+                PUBLIC_PROTOCOL: https
+                PUBLIC_PORT: 8080
 
 ## Helpers
 
