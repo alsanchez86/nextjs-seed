@@ -17,8 +17,11 @@
                 context: .
                 dockerfile: Dockerfile
             environment:
+                PRIVATE_HOSTNAME: localhost
+                PRIVATE_PROTOCOL: http
+                PRIVATE_PORT: 3000
                 PUBLIC_HOSTNAME: localhost
-                PUBLIC_PROTOCOL: https
+                PUBLIC_PROTOCOL: http
                 PUBLIC_PORT: 8080
 
 ## Helpers
