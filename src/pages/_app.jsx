@@ -10,7 +10,7 @@ export default ({ Component, pageProps }) =>
 
 <MainContext>
     <Head>
-        <title>Metajob</title>
+        <title>Nextjs Seed</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>

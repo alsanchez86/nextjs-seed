@@ -10,6 +10,6 @@ services:
             PRIVATE_HOSTNAME: localhost
             PRIVATE_PROTOCOL: http
             PRIVATE_PORT: 3000
-            PUBLIC_HOSTNAME: metajob
+            PUBLIC_HOSTNAME: localhost
             PUBLIC_PROTOCOL: http
             PUBLIC_PORT: 8085
