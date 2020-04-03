@@ -1,8 +1,7 @@
 /**
- * Metajob Endpoints
+ * Metajob Environments
  * Contact info: asancpiz@everis.com
  *
- * process.env.NODE_ENV; // Node environment variable.
  * See for more information: https://nextjs.org/docs/api-reference/next.config.js/environment-variables
  * Overwrite node environment variables: https://www.twilio.com/blog/2017/08/working-with-environment-variables-in-node-js.html
  *
@@ -26,12 +25,12 @@ const envPublicPort = parseInt(process.env.PUBLIC_PORT, 10);
 
 // Update external environment from priority configuration
 // Internal
-environment.internal.host = (envPrivateHostname) ? envPrivateHostname : environment.internal.host;
-environment.internal.protocol = (envPrivateProtocol) ? envPrivateProtocol : environment.internal.protocol;
-environment.internal.port = (envPrivatePort) ? envPrivatePort : environment.internal.port;
+environment.internal.host = (envPrivateHostname || environment.internal.host);
+environment.internal.protocol = (envPrivateProtocol || environment.internal.protocol);
+environment.internal.port = (envPrivatePort || environment.internal.port);
 // External
-environment.external.host = (envPublicHostname) ? envPublicHostname : environment.external.host;
-environment.external.protocol = (envPublicProtocol) ? envPublicProtocol : environment.external.protocol;
-environment.external.port = (envPublicPort) ? envPublicPort : environment.external.port;
+environment.external.host = (envPublicHostname || environment.external.host);
+environment.external.protocol = (envPublicProtocol || environment.external.protocol);
+environment.external.port = (envPublicPort || environment.external.port);
 
 module.exports = environment;
