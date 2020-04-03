@@ -1,30 +1,30 @@
 [
     {
-        "file": "swagger/centers-mur/Improvements-swagger.yaml",
-        "path": "improvements"
+        "file": "swagger/centers-mur/improvement.yaml",
+        "path": "improvement"
     },
     {
-        "file": "swagger/centers-mur/skills-swagger.yml",
+        "file": "swagger/centers-mur/skills.yml",
         "path": "skills"
     },
     {
-        "file": "swagger/centers-mur/swagger-gap.yaml",
+        "file": "swagger/centers-mur/gap.yaml",
         "path": "gap"
     },
     {
-        "file": "swagger/centers-mur/swagger-questionary.yaml",
+        "file": "swagger/centers-mur/questionary.yaml",
         "path": "questionary"
     },
     {
-        "file": "swagger/dgi/swagger-occupation.json",
+        "file": "swagger/dgi/occupation.json",
         "path": "occupation"
     },
     {
-        "file": "swagger/dgi/swagger-qualification.json",
+        "file": "swagger/dgi/qualification.json",
         "path": "qualification"
     },
     {
-        "file": "swagger/dgi/swagger-skill.json",
+        "file": "swagger/dgi/skill.json",
         "path": "skill"
     },
     {

@@ -1,5 +1,4 @@
-[
-    {
+[{
         "management-portal-user-activity": {
             "protocol": "https",
             "host": "dev.everjn.es",
@@ -7,14 +6,14 @@
         }
     },
     {
-        "recommendation": {
+        "management-portal-recommendation": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "management-portal-recommendation"
         }
     },
     {
-        "user": {
+        "management-portal-user": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "management-portal-user"

@@ -1,13 +1,13 @@
 [
     {
-        "labor-recommendation": {
+        "labor-intelligence-engine-recommendation": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "labor-intelligence-engine-recommendation"
         }
     },
     {
-        "segmentation": {
+        "labor-intelligence-engine-segmentation": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "labor-intelligence-engine-segmentation"

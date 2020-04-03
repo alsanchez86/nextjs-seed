@@ -14,7 +14,7 @@ paths:
       tags:
         - Candidate Citation
       summary: Consult the candidates with whom the user has any summons on a given day.
-      description: Take out the information based on a user ID. 
+      description: Take out the information based on a user ID.
       operationId: getCandidatesByIdUserUsingGET
       produces:
         - application/json
@@ -69,12 +69,12 @@ definitions:
         description: List of all preferences jobs of a candidate. The one with priority 1 is the most preferred by the user.
         items:
           $ref: '#/definitions/PreferenceJobProfile'
-      citationDate: 
+      citationDate:
         type: string
         format: date-time
-        description: Concrete citation date of a citation. 
+        description: Concrete citation date of a citation.
     title: CandidateCitation
-    description: A candidate is a type of data that contains the basic data of candidate. In this case include date information. 
+    description: A candidate is a type of data that contains the basic data of candidate. In this case include date information.
   PreferenceJobProfile:
     type: object
     properties:

@@ -103,7 +103,7 @@ definitions:
   Location:
     type: object
     properties:
-      city: 
+      city:
         type: string
         description: city
       country:

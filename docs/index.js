@@ -1,3 +1,10 @@
+/**
+ * Metajob Endpoints
+ * Contact info: asancpiz@everis.com
+ *
+ * Swagger-ui local
+ *
+ */
 
 const YAML = require("require-yml");
 const swaggerDocuments = require("./mapping.json");

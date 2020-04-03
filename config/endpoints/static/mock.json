@@ -1,0 +1,17 @@
+[
+    {
+        "candidate-citations": {
+            "protocol": "http",
+            "host": "localhost",
+            "port": "3000",
+            "aux": "api"
+        }
+    },
+    {
+        "profiling-improvement-area": {
+            "protocol": "http",
+            "host": "localhost",
+            "port": 8080
+        }
+    }
+]

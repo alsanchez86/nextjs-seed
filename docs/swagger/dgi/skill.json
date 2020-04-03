@@ -1,0 +1,727 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Skills-Skills+ Management REST API",
+        "version": "1.0.0",
+        "title": "Información personal",
+        "license": {
+            "name": "Licencia"
+        }
+    },
+    "host": "localhost:10201",
+    "basePath": "/",
+    "tags": [{
+            "name": "skill-service-impl",
+            "description": "Skill Service Impl"
+        },
+        {
+            "name": "skills-group-service-impl",
+            "description": "Skills Group Service Impl"
+        }
+    ],
+    "paths": {
+        "/skill/createSkill": {
+            "post": {
+                "tags": [
+                    "skill-service-impl"
+                ],
+                "summary": "Service that creates a competency and receive a field title, description (optional), group identifier, parent identification (optional), competency type id and competency reuse level id. Returns the id of the created record.",
+                "operationId": "createSkillUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/CreateSkillRequest"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SkillDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "$ref": "#/definitions/SkillDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "BAD_REQUEST"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/skill/deleteSkill/{id}": {
+            "get": {
+                "tags": [
+                    "skill-service-impl"
+                ],
+                "summary": "Service that receives the id of a competition and erases it. Returns the id of the deleted competition. In case of not finding the record with this id, it returns a warning status.",
+                "operationId": "deleteSkillUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int64"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SkillDTO"
+                        }
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "$ref": "#/definitions/SkillDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/skill/getNarrowerSkills/{id}": {
+            "get": {
+                "tags": [
+                    "skill-service-impl"
+                ],
+                "summary": "Service that returns the competences that don't have father competences.",
+                "operationId": "getNarrowerSkillsUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int64"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SkillDTO"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SkillDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/skill/getSkill/{id}": {
+            "get": {
+                "tags": [
+                    "skill-service-impl"
+                ],
+                "summary": "Service that receives an id from a competition and returns the competition.",
+                "operationId": "getSkillUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int64"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SkillDTO"
+                        }
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "$ref": "#/definitions/SkillDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/skill/getTopSkills/{id}": {
+            "get": {
+                "tags": [
+                    "skill-service-impl"
+                ],
+                "summary": "Service that receives an id from a competency group and returns the competencies whose field broaderId is equal to the last id as an argument.",
+                "operationId": "getTopSkillsUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SkillDTO"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SkillDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/skill/updateSkill": {
+            "post": {
+                "tags": [
+                    "skill-service-impl"
+                ],
+                "summary": "Service that updates a competency. It receives parameters id, title, description, group identifier, parent identifier, competition type id, reuse level id (optional). Returns the modified record id. If the record is not found, the service returns a status warning.",
+                "operationId": "updateSkillUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "body",
+                    "name": "pSkillDTO",
+                    "description": "pSkillDTO",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/SkillDTO"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SkillDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "$ref": "#/definitions/SkillDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/skillsGroup/createSkillsGroup": {
+            "post": {
+                "tags": [
+                    "skills-group-service-impl"
+                ],
+                "summary": "Servicio que crea un grupo de competencias y que recibe un campo título, descripción (opcional) y el identificador del grupo padre. Devuelve el id del registro creado.",
+                "operationId": "createSkillsGroupUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/CreateSkillsGroupRequest"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SkillsGroupDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "$ref": "#/definitions/SkillsGroupDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/skillsGroup/deleteSkillsGroup/{id}": {
+            "get": {
+                "tags": [
+                    "skills-group-service-impl"
+                ],
+                "summary": "Servicio que recibe el ide de un grupo de competencias y lo borra. Devuelve el id del recurso borrado. En caso de no encontrar el registro con este id, devuelve un status warning.",
+                "operationId": "deleteSkillsGroupUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int64"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SkillsGroupDTO"
+                        }
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "$ref": "#/definitions/SkillsGroupDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/skillsGroup/getNarrowerSkillsGroups/{id}": {
+            "get": {
+                "tags": [
+                    "skills-group-service-impl"
+                ],
+                "summary": "Servicio que recibe un id de un grupo de competencias y devuelve los grupos de competencias cuyo campo broaderId sea igual al id pasado como argumento.",
+                "operationId": "getNarrowerSkillsGroupsUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int64"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SkillsGroupDTO"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SkillsGroupDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/skillsGroup/getSkillsGroup/{id}": {
+            "get": {
+                "tags": [
+                    "skills-group-service-impl"
+                ],
+                "summary": "Servicio que recibe un id de un grupo de competencias y devuelve el grupo de competencias.",
+                "operationId": "getSkillsGroupUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int64"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SkillsGroupDTO"
+                        }
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "$ref": "#/definitions/SkillsGroupDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/skillsGroup/getTopSkillsGroups": {
+            "get": {
+                "tags": [
+                    "skills-group-service-impl"
+                ],
+                "summary": "Servicio que devuelve el grupo de competencias en la cima de la clasificación. No recibe ningún parámetro y devuelve una lista de grupos de competencias.",
+                "operationId": "getTopSkillsGroupsUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SkillsGroupDTO"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SkillsGroupDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/skillsGroup/updateSkillsGroup": {
+            "post": {
+                "tags": [
+                    "skills-group-service-impl"
+                ],
+                "summary": "Servicio que actualiza un grupo de competencias. Recibe los parámetros id, título, descripción y el identificador del padre. Devuelveel id del registro modificado. En caso de no encontrar el registro, el servicio devuelve un status warning.",
+                "operationId": "updateSkillsGroupUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "body",
+                    "name": "pSkillsGroupDTO",
+                    "description": "pSkillsGroupDTO",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/SkillsGroupDTO"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SkillsGroupDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "204": {
+                        "description": "NOT_CONTENT",
+                        "schema": {
+                            "$ref": "#/definitions/SkillsGroupDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "CreateSkillRequest": {
+            "type": "object",
+            "properties": {
+                "broaderSkillsGroupId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Identificador de la instancia padre",
+                    "allowEmptyValue": false
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Descripción de la instancia",
+                    "allowEmptyValue": false
+                },
+                "skillReuseLevelId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Nivel de la instancia en la taxonomia",
+                    "allowEmptyValue": false
+                },
+                "skillTypeId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Identificador del tipo de instancia",
+                    "allowEmptyValue": false
+                },
+                "statusId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Estado de la instancia en el ciclo de vida",
+                    "allowEmptyValue": false
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Titulo de la instancia",
+                    "allowEmptyValue": false
+                }
+            },
+            "title": "CreateSkillRequest"
+        },
+        "CreateSkillsGroupRequest": {
+            "type": "object",
+            "properties": {
+                "broaderSkillsGroupId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Identificador de la instancia padre",
+                    "allowEmptyValue": false
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Descripción de la instancia",
+                    "allowEmptyValue": false
+                },
+                "statusId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Estado de la instancia en el ciclo de vida",
+                    "allowEmptyValue": false
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Titulo de la instancia",
+                    "allowEmptyValue": false
+                }
+            },
+            "title": "CreateSkillsGroupRequest"
+        },
+        "SkillDTO": {
+            "type": "object",
+            "properties": {
+                "broaderSkillsGroupId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Identificador de la instancia padre",
+                    "allowEmptyValue": false
+                },
+                "code": {
+                    "type": "string",
+                    "description": "Código identificativo de la base de datos",
+                    "allowEmptyValue": false
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Descripción de la instancia",
+                    "allowEmptyValue": false
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Identificador de la instancia",
+                    "allowEmptyValue": false
+                },
+                "skillReuseLevelId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Nivel de la instancia en la taxonomia",
+                    "allowEmptyValue": false
+                },
+                "skillTypeId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Identificador del tipo de instancia",
+                    "allowEmptyValue": false
+                },
+                "statusId": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Estado de la instancia en el ciclo de vida",
+                    "allowEmptyValue": false
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Titulo de la instancia",
+                    "allowEmptyValue": false
+                }
+            },
+            "title": "SkillDTO"
+        },
+        "SkillsGroupDTO": {
+            "type": "object",
+            "properties": {
+                "broaderSkillsGroupId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "statusId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "title": "SkillsGroupDTO"
+        }
+    }
+}

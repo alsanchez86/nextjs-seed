@@ -1,55 +1,55 @@
 [
     {
-        "person": {
+        "candidate-profile-person": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "candidate-profile-person"
         }
     },
     {
-        "administrative-situation": {
+        "candidate-profile-administrative-situation": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "candidate-profile-administrative-situation"
         }
     },
     {
-        "contact-info": {
+        "candidate-profile-contact-info": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "candidate-profile-contact-info"
         }
     },
     {
-        "training": {
+        "candidate-profile-training": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "candidate-profile-training"
         }
     },
     {
-        "labor-preference": {
+        "candidate-profile-labor-preference": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "candidate-profile-labor-preference"
         }
     },
     {
-        "labor-experience": {
+        "candidate-profile-labor-experience": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "candidate-profile-labor-experience"
         }
     },
     {
-        "skills": {
+        "candidate-profile-skills": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "candidate-profile-skills"
         }
     },
     {
-        "candidate": {
+        "candidate-profile-candidate": {
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "candidate-profile-candidate"

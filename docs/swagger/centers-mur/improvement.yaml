@@ -148,7 +148,7 @@ paths:
       tags:
         - Actions
       summary: Modificar o cambiar estado de una acción
-      description: Servicio que permite modificar una acción y cambiar el estado de esta si es que en el body solo se envía el código de estado y el usuario de modificación. 
+      description: Servicio que permite modificar una acción y cambiar el estado de esta si es que en el body solo se envía el código de estado y el usuario de modificación.
       operationId: modificarAccionUsingPUT
       consumes:
         - application/json
@@ -659,7 +659,7 @@ paths:
       tags:
         - Improvements
       summary: Modificar o cambiar estado de un área de mejora
-      description: Servicio que permite modificar un área de mejora y cambiar el estado de esta si es que en el body solo se envía el código de estado y el usuario de modificación. 
+      description: Servicio que permite modificar un área de mejora y cambiar el estado de esta si es que en el body solo se envía el código de estado y el usuario de modificación.
       operationId: modificarAreaMejoraUsingPUT
       consumes:
         - application/json
@@ -1029,7 +1029,7 @@ paths:
         - Objectives
       summary: Modificar o cambiar estado de un Objetivo del catálogo
       description: >-
-        Servicio que permite modificar un objetivo y cambiar el estado de este si es que en el body solo se envía el código de estado y el usuario de modificación. 
+        Servicio que permite modificar un objetivo y cambiar el estado de este si es que en el body solo se envía el código de estado y el usuario de modificación.
       operationId: modificarObjetivoCatalogoUsingPUT
       consumes:
         - application/json;charset=UTF-8
@@ -1065,7 +1065,7 @@ paths:
       tags:
         - Objectives
       summary: Listar las acciones de un objetivo
-      description: Servicio que permite listar las acciones de un objetivo  <br> 
+      description: Servicio que permite listar las acciones de un objetivo  <br>
         <b> objectives/{objective-code}/actions?page=0&size=1&sortBy=action-code
       operationId: consultarAccionesObjetivoUsingGET
       produces:
@@ -1139,7 +1139,7 @@ paths:
         '400':
           description: La solicitud no pudo ser interpretada por una sintaxis inválida
           schema:
-            $ref: '#/definitions/ErrorDetailsFields'    
+            $ref: '#/definitions/ErrorDetailsFields'
         '404':
           description: Códigos no encontrados
           schema:
@@ -1557,10 +1557,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       description:
         type: string
       entity-state:
@@ -1573,7 +1573,7 @@ definitions:
         example: '2020-02-27'
       update-user:
         type: string
-        
+
     title: AccionDTO
   AccionObjetivoDetalleDTO:
     type: object
@@ -1628,10 +1628,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       description:
         type: string
       entity-state:
@@ -1648,10 +1648,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       update-user:
         type: string
-        
+
     title: AmbitoDTO
   AmbitoDemandanteConCuestionarioDTO:
     type: object
@@ -1672,10 +1672,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       origin:
         $ref: '#/definitions/OrigenDTO'
       relation-state:
@@ -1686,10 +1686,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       update-user:
         type: string
-        
+
     title: AmbitoDemandanteDTO
   AmbitoReducidoConCuestionarioDTO:
     type: object
@@ -1698,10 +1698,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       entity-state:
         $ref: '#/definitions/EstadoDTO'
       questionnaries:
@@ -1718,10 +1718,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       update-user:
         type: string
-        
+
     title: AmbitoReducidoConCuestionarioDTO
   AmbitoReducidoDTO:
     type: object
@@ -1757,10 +1757,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       improvement-code:
         type: string
       relation-state:
@@ -1769,10 +1769,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       update-user:
         type: string
-        
+
     title: ObjetivoAccionDemandanteDTO
   AreaDemandanteResponseDTO:
     type: object
@@ -1785,10 +1785,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       improvement-code:
         type: string
       relation-state:
@@ -1797,10 +1797,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       update-user:
         type: string
-        
+
     title: AreaDemandanteResponseDTO
   AreaMejoraDTO:
     type: object
@@ -1809,10 +1809,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       description:
         type: string
       entity-state:
@@ -1945,10 +1945,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       update-user:
         type: string
-        
+
     title: AreaObjetivosDTO
   AsociarAmbitoDemandanteDTO:
     type: object
@@ -1957,7 +1957,7 @@ definitions:
     properties:
       creation-user:
         type: string
-        
+
     title: AsociarAmbitoDemandanteDTO
   AsociarAreaDemandanteDTO:
     type: object
@@ -1967,10 +1967,10 @@ definitions:
     properties:
       creation-user:
         type: string
-        
+
       state-code:
         type: string
-        
+
     title: AsociarAreaDemandanteDTO
   AsociarObjetivoDemandanteAccionDTO:
     type: object
@@ -1996,10 +1996,10 @@ definitions:
     properties:
       state-code:
         type: string
-        
+
       update-user:
         type: string
-        
+
     title: CambiarEstadoObjetoDTO
   CrearAccionDTO:
     type: object
@@ -2011,7 +2011,7 @@ definitions:
         type: string
       creation-user:
         type: string
-        
+
       description:
         type: string
       title:
@@ -2052,20 +2052,20 @@ definitions:
     properties:
       creation-user:
         type: string
-        
+
       description:
         type: string
-        
+
       objectives-code:
         type: array
         items:
           type: string
       subtitle:
         type: string
-        
+
       title:
         type: string
-        
+
     title: CrearAreaMejoraDTO
   CrearObjetivoDTO:
     type: object
@@ -2080,7 +2080,7 @@ definitions:
           type: string
       creation-user:
         type: string
-        
+
       description:
         type: string
       title:
@@ -2237,19 +2237,19 @@ definitions:
     properties:
       action-type-code:
         type: string
-        
+
       description:
         type: string
-        
+
       state-code:
         type: string
-        
+
       title:
         type: string
-        
+
       update-user:
         type: string
-        
+
     title: ModificarAccionDTO
   ModificarAmbitoDTO:
     type: object
@@ -2262,22 +2262,22 @@ definitions:
           type: string
       description:
         type: string
-        
+
       scope-type-code:
         type: string
-        
+
       state-code:
         type: string
-        
+
       subtitle:
         type: string
-        
+
       title:
         type: string
-        
+
       update-user:
         type: string
-        
+
     title: ModificarAmbitoDTO
   ModificarAreaMejoraDTO:
     type: object
@@ -2286,19 +2286,19 @@ definitions:
     properties:
       description:
         type: string
-        
+
       subtitle:
         type: string
-        
+
       state-code:
         type: string
-        
+
       title:
         type: string
-        
+
       update-user:
         type: string
-        
+
     title: ModificarAreaMejoraDTO
   ModificarObjetivoCatalogoRequestDTO:
     type: object
@@ -2307,16 +2307,16 @@ definitions:
     properties:
       description:
         type: string
-        
+
       title:
         type: string
-      
+
       state-code:
         type: string
-        
+
       update-user:
         type: string
-        
+
     title: ModificarObjetivoCatalogoRequestDTO
   ModificarObjetivoCatalogoReponseDTO:
     type: object
@@ -2325,10 +2325,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       description:
         type: string
       objective-code:
@@ -2339,10 +2339,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       update-user:
         type: string
-        
+
     title: ModificarObjetivoCatalogoReponseDTO
   ObjetivoDTO:
     type: object
@@ -2355,10 +2355,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       description:
         type: string
       entity-state:
@@ -2371,10 +2371,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       update-user:
         type: string
-        
+
     title: ObjetivoDTO
   ObjetivoDemandanteAccionDTO:
     type: object
@@ -2385,20 +2385,20 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       relation-state:
         $ref: '#/definitions/EstadoDTO'
       update-date:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       update-user:
         type: string
-        
+
     title: ObjetivoDemandanteAccionDTO
   ObjetivoDemandanteDTO:
     type: object
@@ -2411,10 +2411,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       objective-code:
         type: string
       relation-state:
@@ -2423,10 +2423,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       update-user:
         type: string
-        
+
     title: ObjetivoDemandanteDTO
   ObjetivoDemandanteResponseDTO:
     type: object
@@ -2437,10 +2437,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       creation-user:
         type: string
-        
+
       objective-code:
         type: string
       relation-state:
@@ -2449,10 +2449,10 @@ definitions:
         type: string
         format: date
         example: '2020-02-27'
-        
+
       update-user:
         type: string
-        
+
     title: ObjetivoDemandanteResponseDTO
   ObjetivoReducidoDTO:
     type: object

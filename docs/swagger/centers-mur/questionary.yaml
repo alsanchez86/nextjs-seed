@@ -157,7 +157,7 @@ paths:
         '200':
           description: Operación Exitosa
           schema:
-            $ref: '#/definitions/ResponseGetQuestionnaires'
+            $ref: '#/definitions/ListarCuestionarioResponseDTO'
         '401':
           description: Unauthorized
         '403':
@@ -182,10 +182,16 @@ paths:
           schema:
             $ref: '#/definitions/Cuestionario'
       responses:
+        '200':
+          description: >-
+            No se puede agregar, debido a que ya existe un cuestionario con el
+            código de Cuestionario: CUE001
+          schema:
+            $ref: '#/definitions/ErrorDetails'
         '201':
           description: 'Petición resuelta, se ha añadido el cuestionario en la BBDD'
           schema:
-            $ref: '#/definitions/ResponsePostQuestionnaires'
+            $ref: '#/definitions/ObtenerCuestionarioResponse'
         '400':
           description: Campos invalidos
           schema:
@@ -221,7 +227,7 @@ paths:
         '200':
           description: 'Petición resuelta, se ha obtenido los cuestionarios de la BBDD.'
           schema:
-            $ref: '#/definitions/ResponseGetQuestionnairesByApplicants'
+            $ref: '#/definitions/ListaCuestionariosDemandanteResponse'
         '401':
           description: Unauthorized
         '403':
@@ -247,7 +253,7 @@ paths:
         '200':
           description: Operación exitosa
           schema:
-            $ref: '#/definitions/ResponseGetQuestionnairesByQuestionnaryCode'
+            $ref: '#/definitions/ObtenerCuestionarioDemandanteResponse'
         '401':
           description: Unauthorized
         '403':
@@ -279,7 +285,7 @@ paths:
           description: cuestionario
           required: false
           schema:
-            $ref: '#/definitions/ResponsePutQuestionnaires'
+            $ref: '#/definitions/ModificarCuestionario'
       responses:
         '200':
           description: Se ha modificado el cuestionario
@@ -359,10 +365,14 @@ paths:
           schema:
             $ref: '#/definitions/AsignarCuestionarioCuestionDTO'
       responses:
+        '200':
+          description: La cuestion se encuentra previamente asignada al cuestionario.
+          schema:
+            $ref: '#/definitions/ErrorDetails'
         '201':
           description: Se ha asignado el cuestionario con exito.
           schema:
-            $ref: '#/definitions/ResponsePostQuestionnairesByQuestionnaryCode'
+            $ref: '#/definitions/ResponseMessageSuccess'
         '400':
           description: Campos Invalidos
           schema:
@@ -433,7 +443,7 @@ paths:
         '200':
           description: 'Petición resuelta, se ha obtenido el cuestionario de la BBDD.'
           schema:
-            $ref: '#/definitions/ResponseGetQuestionnairesByQuestionaryCodeApplicants'
+            $ref: '#/definitions/ObtenerCuestionarioDeDemandanteResponse'
         '401':
           description: Unauthorized
         '403':
@@ -470,10 +480,16 @@ paths:
           required: true
           type: string
       responses:
+        '200':
+          description: >-
+            El estado ingresado no esta permitido, estado permitidos:
+            P=PENDIENTE, C=EN CURSO, F=FINALIZADO, B=BLOQUEADO
+          schema:
+            $ref: '#/definitions/ErrorDetails'
         '201':
           description: 'Petición resuelta, se ha asignado el cuestionario al demandante.'
           schema:
-            $ref: '#/definitions/ResponsePostQuestionnairesByQuestionaryCodeApplicants'
+            $ref: '#/definitions/CuestionarioDemandanteResponse'
         '400':
           description: Campos invalidos
           schema:
@@ -573,7 +589,7 @@ paths:
         '200':
           description: Operación exitosa.
           schema:
-            $ref: '#/definitions/ResponseGetQuestions'
+            $ref: '#/definitions/CuestionResponseDTO'
         '401':
           description: Unauthorized
         '403':
@@ -601,7 +617,7 @@ paths:
         '201':
           description: 'Petición resuelta, se ha añadido la cuestión en la BBDD.'
           schema:
-            $ref: '#/definitions/ResponsePostQuestions'
+            $ref: '#/definitions/CuestionResponse'
         '400':
           description: Campos invalidos
           schema:
@@ -643,7 +659,7 @@ paths:
             Se han modificado las respuestas de la cuestion con codigo
             {codigo_cuestion}.
           schema:
-            $ref: '#/definitions/ResponsePutQuestionsAnswers'
+            $ref: '#/definitions/CuestionResponse'
         '201':
           description: Created
         '400':
@@ -677,7 +693,7 @@ paths:
         '200':
           description: Operación exitosa.
           schema:
-            $ref: '#/definitions/ResponseGetQuestionsByQuestionCode'
+            $ref: '#/definitions/CuestionResponse'
         '401':
           description: Unauthorized
         '403':
@@ -712,7 +728,7 @@ paths:
         '200':
           description: 'Se ha modificado la cuestion con codigo {codigo_cuestion}.'
           schema:
-            $ref: '#/definitions/ResponsePutQuestions'
+            $ref: '#/definitions/CuestionResponse'
         '201':
           description: Created
         '400':
@@ -923,7 +939,7 @@ paths:
         '200':
           description: Operación exitosa
           schema:
-            $ref: '#/definitions/ResponseGetResultsQuestionnairesApplicantsByCode'
+            $ref: '#/definitions/ResultadoResponse'
         '401':
           description: Unauthorized
         '403':
@@ -965,7 +981,7 @@ paths:
         '201':
           description: 'Operacion exitosa, resultados almacenados en BBDD'
           schema:
-            $ref: '#/definitions/ResponsePostResultsQuestionnairesApplicantsByCode'
+            $ref: '#/definitions/ResultadoResponseSuccess'
         '400':
           description: Campos invalidos
           schema:
@@ -1032,9 +1048,13 @@ definitions:
         description: Indique si cuestion se encuentra borrado
       content:
         type: string
+        example: >-
+          En mis anteriores puestos de trabajo mis compañeros siempre han
+          opinado que soy una persona de trato fácil.
         description: Contenido de la cuestión
       contextualization:
         type: string
+        example: Indique su nivel de acuerdo con la siguiente afirmación
         description: Codigo de la cuestión
       state-code:
         type: string
@@ -1113,9 +1133,13 @@ definitions:
         description: Url de los archivos adjuntos
       content:
         type: string
+        example: >-
+          En mis anteriores puestos de trabajo mis compañeros siempre han
+          opinado que soy una persona de trato fácil.
         description: Contenido de la cuestión
       contextualization:
         type: string
+        example: Indique su nivel de acuerdo con la siguiente afirmación
         description: Codigo de la cuestión
       answers:
         type: array
@@ -1134,7 +1158,16 @@ definitions:
         example: USU001
         description: Codigo de usuario de creación
     title: CuestionRequest
-    
+  CuestionResponseDTO:
+    type: object
+    properties:
+      questions:
+        type: array
+        items:
+          $ref: '#/definitions/CuestionResponse'
+      questions-total:
+        type: string
+    title: CuestionResponse
   CuestionResponse:
     type: object
     properties:
@@ -1170,16 +1203,6 @@ definitions:
       update-user:
         type: string
     title: CuestionResponse
-  CuestionAnswersResponse:
-    type: object
-    properties:
-      question-code:
-        type: string
-      answers:
-        type: array
-        items:
-          $ref: '#/definitions/RespuestaResponse'
-    title: CuestionAnswersResponse
   CuestionRespuestaRequest:
     type: object
     required:
@@ -1298,7 +1321,16 @@ definitions:
       message:
         type: string
     title: ErrorDetailsFields
-  
+  GenericResponseDTO«ResultadoResponseSuccess»:
+    type: object
+    properties:
+      message:
+        type: string
+      validaciones:
+        type: array
+        items:
+          $ref: '#/definitions/InvalidFields'
+    title: GenericResponseDTO«ResultadoResponseSuccess»
   InvalidFields:
     type: object
     properties:
@@ -1560,75 +1592,10 @@ definitions:
         type: string
         format: date-time
     title: ObtenerCuestionarioDeDemandanteResponse
-  AsignarCuestionarioResponseDTO:
-    type: object
-    properties:
-      erased:
-        type: boolean
-      questionary-code:
-        type: string
-      question:
-        $ref: '#/definitions/AsignarCuestionResponse'
-      description:
-        type: string
-      entity-state:
-        type: string
-      update-date:
-        type: string
-        format: date-time
-      creation-date:
-        type: string
-        format: date-time
-      name:
-        type: string
-      creation-user:
-        type: string
-      update-user:
-        type: string
-    title: CuestionarioResponseDTO
-  AsignarCuestionarioCuestionResponse:
-    type: object
-    properties:
-      questionary:
-        $ref: '#/definitions/AsignarCuestionarioResponseDTO'
-    title: AsignarCuestionarioCuestionResponse
-  AsignarCuestionResponse:
-    type: object
-    properties:
-      attached:
-        type: string
-      erased:
-        type: boolean
-      question-code:
-        type: string
-      content:
-        type: string
-      contextualization:
-        type: string
-      entity-state:
-        type: string
-      update-date:
-        type: string
-        format: date-time
-      creation-date:
-        type: string
-        format: date-time
-      required:
-        type: boolean
-      allowed-answers:
-        type: integer
-        format: int32
-      answer-type:
-        type: string
-      creation-user:
-        type: string
-      update-user:
-        type: string
-    title: CuestionDemandanteResponse
   ListarCuestionarioResponseDTO:
     type: object
     properties:
-      questionnaires:
+      questionnaries:
         type: array
         items:
           $ref: '#/definitions/ObtenerCuestionarioResponse'
@@ -1640,6 +1607,8 @@ definitions:
     properties:
       questionary:
         $ref: '#/definitions/ObtenerCuestionarioResponse'
+      relation-state:
+        type: string
   ObtenerCuestionarioResponse:
     type: object
     properties:
@@ -1670,15 +1639,17 @@ definitions:
       number-questions:
         type: string
     title: ObtenerCuestionarioResponse
- 
+  ResponseMessageSuccess:
+    type: object
+    properties:
+      message:
+        type: string
+    title: ResponseMessageSuccess
   RespuestaRequest:
     type: object
     required:
-      - answer-code
       - text
     properties:
-      answer-code:
-        type: string
       text:
         type: string
     title: RespuestaRequest
@@ -1724,7 +1695,7 @@ definitions:
   ResultadoResponse:
     type: object
     properties:
-      results:
+      result:
         type: array
         items:
           $ref: '#/definitions/ResultadoDTO'
@@ -1746,8 +1717,6 @@ definitions:
     properties:
       answer-code:
         type: string
-      answer-text:
-        type: string
     title: ResultadoRespuestaDTO
   View:
     type: object
@@ -1755,198 +1724,3 @@ definitions:
       contentType:
         type: string
     title: View
-    
-    #los nuevos response
-  ResponseMessageSuccess:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-    title: ResponseMessageSuccess
-  ResponseGetQuestions:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataQuestions'
-  ResponseDataQuestions:
-    type: object
-    properties:
-      questions:
-        type: array
-        items:
-          $ref: '#/definitions/CuestionResponse'
-      questions-total:
-        type: string
-  ResponseDataQuestionsAnswers:
-    type: object
-    properties:
-      question:
-        $ref: '#/definitions/CuestionAnswersResponse'
-  ResponsePostQuestions:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataQuestion'
-  ResponsePutQuestionsAnswers:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataQuestionsAnswers'
-  ResponseGetQuestionsByQuestionCode:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataQuestion'
-  ResponsePutQuestions:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataQuestion'
-  ResponseDataQuestion:
-    type: object
-    properties:
-      question:
-        $ref: '#/definitions/CuestionResponse'
-  ResponseMessages:
-    type: array
-    items: 
-      $ref: '#/definitions/ResponseMessage'
-  ResponseMessage:
-    type: object
-    properties:
-      'type': 
-        type: string
-      alias:
-        type: string
-      message:
-        type: string
-  ResponseGetQuestionnaires:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ListarCuestionarioResponseDTO'
-  ResponsePostQuestionnairesByQuestionaryCodeApplicants:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataQuestionaryApplicant'
-  ResponseDataQuestionaryApplicant:
-    type: object
-    properties:
-      applicant-questionary:
-        $ref: '#/definitions/CuestionarioDemandanteResponse'
-        
-  ResponseGetQuestionnairesByQuestionaryCodeApplicants:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataQuestionaryCodeApplicants'
-  ResponseDataQuestionaryCodeApplicants:
-    type: object
-    properties:
-      applicant-questionary:
-        $ref: '#/definitions/ObtenerCuestionarioDeDemandanteResponse'
-
-  ResponsePostQuestionnaires:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataQuestionnaires'
-  ResponseDataQuestionnaires:
-    type: object
-    properties:
-      questionary:
-        $ref : '#/definitions/ObtenerCuestionarioResponse'
-  ResponseGetQuestionnairesByApplicants:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataQuestionnairesByApplicants'
-  ResponseDataQuestionnairesByApplicants:
-    type: object
-    properties:
-      applicant-questionnaires:
-        type: array
-        items:
-          $ref : '#/definitions/ListaCuestionariosDemandanteResponse'
-  ResponseGetQuestionnairesByQuestionnaryCode:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ObtenerCuestionarioDemandanteResponse'         
-  ResponsePutQuestionnaires:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataPutQuestionnaires' 
-  ResponseDataPutQuestionnaires:
-    type: object
-    properties:
-      questionary:
-        $ref : '#/definitions/ObtenerCuestionarioResponse'
-  ResponseGetResultsQuestionnairesApplicantsByCode:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataResultsQuestionnairesApplicantsByCode'
-  ResponseDataResultsQuestionnairesApplicantsByCode:
-    type: object
-    properties:
-      results:
-        $ref : '#/definitions/ResponseArrayResultsQuestionnairesApplicantsByCode'
-  ResponseArrayResultsQuestionnairesApplicantsByCode:
-    type: array
-    items:
-      $ref: '#/definitions/ResultadoDTO'
-  ResponsePostResultsQuestionnairesApplicantsByCode:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/ResponseDataPostResultsQuestionnairesApplicantsByCode'
-  ResponseDataPostResultsQuestionnairesApplicantsByCode:
-    type: object
-    properties:
-      validations:
-        $ref : '#/definitions/ResponseArrayPostResultsQuestionnairesApplicantsByCode'
-  ResponseArrayPostResultsQuestionnairesApplicantsByCode:
-    type: array
-    items:
-      $ref: '#/definitions/InvalidFieldsResponse'
-      
-  ResponsePostQuestionnairesByQuestionnaryCode:
-    type: object
-    properties:
-      messages:
-        $ref: '#/definitions/ResponseMessages'
-      data:
-        $ref : '#/definitions/AsignarCuestionarioCuestionResponse'
-    
-  

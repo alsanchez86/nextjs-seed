@@ -1,5 +1,7 @@
 export const generateState = (
     state = {}
 ) => {
-    return state;
+    return {
+        ...state
+    };
 };

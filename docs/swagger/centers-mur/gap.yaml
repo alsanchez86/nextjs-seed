@@ -249,7 +249,7 @@ paths:
         - gap-controller-impl
       summary: >-
         Listar las competencias faltantes y las que tiene un perfil competencia,
-        y el GAP 
+        y el GAP
       description: >-
         Servicio que permite listar las competencias que un perfil competencial
         tiene o le hace falta respecto a una ocupación demandanda
