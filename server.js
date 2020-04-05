@@ -11,36 +11,4 @@
  *
  */
 
-const express = require("express");
-const next = require("next");
-const environment = require("./config/environment");
-const swaggerUiExpress = require("swagger-ui-express");
-const swaggerMapping = require("./docs/swagger/mapping.json");
-const swaggerData = require("./docs/swagger");
-const dev = (process.env.NODE_ENV !== "production");
-const app = next({ dev });
-const handle = app.getRequestHandler();
-
-app
-    .prepare()
-    .then(() => {
-        const server = express();
-
-        // If dev mode, expose swagger documentation on Nextjs API
-        if (dev){
-            swaggerMapping.map((document, index) => server.use(`/swagger-ui/${document.path}`, swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerData[index])));
-        }
-
-        // Init server app! :)
-        server
-            .all("*", (req, res) => handle(req, res))
-            .listen(environment.internal.port, (error) => {
-                if (error) {
-                    throw error;
-                }
-                // Show info on console
-                console.log("> Environment:", environment);
-                console.log(`> NextJS service ready on ${environment.internal.protocol}://${environment.internal.host}:${environment.internal.port}`);
-                console.log(`> NextJS service expose on ${environment.external.protocol}://${environment.external.host}:${environment.external.port}`);
-        });
-})
+require(`./config/environment/server/server.${process.env.NODE_ENV}`);

@@ -8,10 +8,9 @@
 
 const dev = (process.env.NODE_ENV !== "production");
 const { readdirSync } = require("fs");
-const endpoints = readdirSync("./config/endpoints/static/")
-    .filter(e => e !== "mock.json")
-    .map(e => "./static/" + e)
-    .map(require)
+const endpoints = readdirSync(`${__dirname}/static/`)
+    .filter(e => (e !== "mock.json"))
+    .map(e => require(`./static/${e}`))
     .reduce((a, b) => a.concat(b));
 
 module.exports = dev ? ((data) => {

@@ -12,7 +12,7 @@
  */
 
 // Import environment static values from environment file
-const environment = require(`./static/${process.env.NODE_ENV}.json`);
+const static = require(`./static/${process.env.NODE_ENV}.json`);
 // Get values from environment variables
 // Internal
 const envPrivateHostname = process.env.PRIVATE_HOSTNAME;
@@ -25,12 +25,12 @@ const envPublicPort = parseInt(process.env.PUBLIC_PORT, 10);
 
 // Update external environment from priority configuration
 // Internal
-environment.internal.host = (envPrivateHostname || environment.internal.host);
-environment.internal.protocol = (envPrivateProtocol || environment.internal.protocol);
-environment.internal.port = (envPrivatePort || environment.internal.port);
+static.internal.host = (envPrivateHostname || static.internal.host);
+static.internal.protocol = (envPrivateProtocol || static.internal.protocol);
+static.internal.port = (envPrivatePort || static.internal.port);
 // External
-environment.external.host = (envPublicHostname || environment.external.host);
-environment.external.protocol = (envPublicProtocol || environment.external.protocol);
-environment.external.port = (envPublicPort || environment.external.port);
+static.external.host = (envPublicHostname || static.external.host);
+static.external.protocol = (envPublicProtocol || static.external.protocol);
+static.external.port = (envPublicPort || static.external.port);
 
-module.exports = environment;
+module.exports = static;

@@ -6,7 +6,7 @@
  */
 
 const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
-const environment = require("./config/environment");
+const environment = require("./config/environment/config");
 const endpoints = require("./config/endpoints");
 
 module.exports = (phase) => {
