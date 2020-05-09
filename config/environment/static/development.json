@@ -2,13 +2,15 @@
     "internal": {
         "protocol": "http",
         "host": "localhost",
-        "aux": "api",
-        "port": 3000
+        "port": 3000,
+        "context": "",
+        "api": "api"
     },
     "external": {
         "protocol": "http",
         "host": "localhost",
-        "aux": "api",
-        "port": 3000
+        "port": 3000,
+        "context": "",
+        "api": "api"
     }
 }

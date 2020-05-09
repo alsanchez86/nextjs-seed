@@ -1,8 +1,9 @@
-[{
+[
+    {
         "profiling-improvement-area": {
             "protocol": "https",
             "host": "dev.everjn.es",
-            "aux": "skills-improvement-area"
+            "aux": "profiling-improvement-area"
         }
     },
     {
@@ -10,6 +11,13 @@
             "protocol": "https",
             "host": "dev.everjn.es",
             "aux": "skills-plus-occupations"
+        }
+    },
+    {
+        "profiling-questionaries": {
+            "protocol": "https",
+            "host": "dev.everjn.es",
+            "aux": ""
         }
     }
 ]

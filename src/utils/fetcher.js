@@ -1,14 +1,24 @@
 import fetch from "isomorphic-unfetch";
 
+const handleError = function (error) {
+	return {
+        ok: false
+	};
+};
+
 /**
  * Simple wrapper for vanilla fetch
  *
  * @export
- * @param {*} url
+ * @param {*} args
  * @returns
  */
 export default async function (...args) {
-    const res = await fetch(...args);
-    const data = await res.json();
-    return data;
+    let res = await fetch(...args).catch(handleError);
+    let data = (res.ok && (res.status < 400)) ? await res.json() : null;
+
+    return {
+        ok: res.ok,
+        data
+    };
 }

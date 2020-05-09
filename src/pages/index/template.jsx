@@ -1,5 +1,6 @@
 import { Button } from 'primereact/button';
 import Footer from "../../components/footer";
+import { publicUrl } from "../../utils";
 
 export default ({ shows, getBatmanFilms, quote, getQuote }) =>
 
@@ -29,6 +30,8 @@ export default ({ shows, getBatmanFilms, quote, getQuote }) =>
         label="get quote"
         onClick={getQuote}>
     </Button>
+
+    <img src={`${publicUrl}images/perro.jpg`}/>
 
     <Footer />
 </>

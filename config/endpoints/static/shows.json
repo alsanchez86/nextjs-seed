@@ -1,0 +1,9 @@
+[
+    {
+        "tvmaze": {
+            "protocol": "https",
+            "host": "api.tvmaze.com",
+            "aux": "search"
+        }
+    }
+]

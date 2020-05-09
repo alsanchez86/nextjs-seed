@@ -1,4 +1,5 @@
-[{
+[
+    {
         "management-portal-user-activity": {
             "protocol": "https",
             "host": "dev.everjn.es",

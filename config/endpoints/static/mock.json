@@ -3,15 +3,36 @@
         "candidate-citations": {
             "protocol": "http",
             "host": "localhost",
-            "port": "3000",
+            "port": 3000,
             "aux": "api"
         }
     },
     {
-        "profiling-improvement-area": {
+        "candidate-profile-skills": {
             "protocol": "http",
             "host": "localhost",
-            "port": 8080
+            "port": 8083
+        }
+    },
+    {
+        "skills-plus-occupations": {
+            "protocol": "http",
+            "host": "localhost",
+            "port": 12122
+        }
+    },
+    {
+        "skills-plus-skills": {
+            "protocol": "http",
+            "host": "localhost",
+            "port": 12121
+        }
+    },
+    {
+        "profiling-questionaries": {
+            "protocol": "http",
+            "host": "localhost",
+            "port": 8081
         }
     }
 ]

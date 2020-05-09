@@ -1,6 +1,5 @@
 /**
  * NextJS custom server
- * Contact info: asancpiz@everis.com
  *
  * See for more information: https://nextjs.org/docs/advanced-features/custom-server
  * Basic Nextjs custom server example: https://github.com/zeit/next.js/blob/canary/examples/custom-server/server.js

@@ -1,5 +1,5 @@
 import data from "./data.json";
-import { getRandomElementFromArray } from "../../../utils/get-random-element-from-array";
+import { getRandomElementFromArray } from "../../../utils";
 
 export default (request, response) => {
     const { author } = request?.query;

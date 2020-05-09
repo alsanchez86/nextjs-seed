@@ -2,14 +2,25 @@ version: '3.1'
 services:
     nextjs:
         ports:
-            - 8080:3000
+            - ${PUBLIC_PORT}:${PRIVATE_PORT}
         build:
             context: .
             dockerfile: Dockerfile
+            args:
+                PRIVATE_PROTOCOL: ${PRIVATE_PROTOCOL}
+                PRIVATE_HOSTNAME: ${PRIVATE_HOSTNAME}
+                PRIVATE_PORT: ${PRIVATE_PORT}
+                PRIVATE_CONTEXT: ${PRIVATE_CONTEXT}
+                PUBLIC_PROTOCOL: ${PUBLIC_PROTOCOL}
+                PUBLIC_HOSTNAME: ${PUBLIC_HOSTNAME}
+                PUBLIC_PORT: ${PUBLIC_PORT}
+                PUBLIC_CONTEXT: ${PUBLIC_CONTEXT}
         environment:
-            PRIVATE_HOSTNAME: localhost
-            PRIVATE_PROTOCOL: http
-            PRIVATE_PORT: 3000
-            PUBLIC_HOSTNAME: localhost
-            PUBLIC_PROTOCOL: http
-            PUBLIC_PORT: 8080
+            PRIVATE_PROTOCOL: ${PRIVATE_PROTOCOL}
+            PRIVATE_HOSTNAME: ${PRIVATE_HOSTNAME}
+            PRIVATE_PORT: ${PRIVATE_PORT}
+            PRIVATE_CONTEXT: ${PRIVATE_CONTEXT}
+            PUBLIC_PROTOCOL: ${PUBLIC_PROTOCOL}
+            PUBLIC_HOSTNAME: ${PUBLIC_HOSTNAME}
+            PUBLIC_PORT: ${PUBLIC_PORT}
+            PUBLIC_CONTEXT: ${PUBLIC_CONTEXT}

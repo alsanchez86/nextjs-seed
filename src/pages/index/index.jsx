@@ -5,8 +5,10 @@ import { updateShows } from "../../contexts/main/actions";
 import Template from "./template";
 
 export async function getServerSideProps() {
-    const ssrShows = await requestFilms("pepe");
-    const ssrQuote = await requestQuote({ssr: true});
+    const resShows = await requestFilms({q: "pepe"});
+    const resQuote = await requestQuote({ssr: true});
+    const ssrShows = resShows?.ok ? resShows?.data : [];
+    const ssrQuote = resQuote?.ok ? resQuote?.data : {};
 
     return {
         props: {
@@ -22,13 +24,17 @@ export default ({ ssrShows, ssrQuote }) => {
     const [quote, setQuote] = useState(ssrQuote); // Local state. Not context data
 
     const getBatmanFilms = async () => {
-        const data = await requestFilms("batman");
-        contextDispatch(updateShows(data));
+        const res = await requestFilms({q: "batman"});
+        if (res?.ok){
+            contextDispatch(updateShows(res?.data));
+        }
     };
 
     const getQuote = async () => {
-        const data = await requestQuote({ssr: false});
-        setQuote(data);
+        const res = await requestQuote({ssr: false});
+        if (res?.ok){
+            setQuote(res?.data);
+        }
     };
 
     useEffect(() => {

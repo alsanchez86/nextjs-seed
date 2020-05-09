@@ -1,14 +1,25 @@
 import fetcher from "./fetcher";
-import getApiUrl from "./get-api-url";
+import getEndpoint from "./get-endpoint"; // Get endpoint from ./config/endpoints
+import getEnvironmentApi from "./get-environment-api"; // Use when do a request to Nextjs API. From inside (internalUrl) or outside (externalUrl)
 
-export const requestFilms = (name = "") => {
-    return fetcher(`https://api.tvmaze.com/search/shows?q=${name}`);
+export const requestFilms = (args) => {
+    const q = args?.q;
+    const endpoint = getEndpoint({
+        name: "tvmaze",
+        ...args
+    });
+
+    return fetcher(`${endpoint}shows?q=${q}`, {
+        method: "GET"
+    });
 }
 
 export const requestQuote = (args) => {
-    const localUrl = getApiUrl({
+    const endpoint = getEnvironmentApi({
         ...args
-        // name: "local"
     });
-    return fetcher(`${localUrl}get-quote`);
+
+    return fetcher(`${endpoint}get-quote`, {
+        method: "GET"
+    });
 }

@@ -1,10 +1,9 @@
 /**
  * NextJS custom server
- * Contact info: asancpiz@everis.com
  *
  */
 
-const environment = require("../config");
+const environment = require("../");
 const express = require("express");
 const next = require("next");
 const app = next({ dev: false });
@@ -24,7 +23,5 @@ app
                 }
                 // Show info on console
                 console.log("> Environment:", environment);
-                console.log("> NextJS service ready on", `${environment.internal.protocol}://${environment.internal.host}:${environment.internal.port}`);
-                console.log("> NextJS service expose on", `${environment.external.protocol}://${environment.external.host}:${environment.external.port}`);
         });
-})
+});
