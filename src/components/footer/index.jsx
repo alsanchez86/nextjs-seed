@@ -1,5 +1,3 @@
-import Template from "./template";
-
 export default () =>
 
-<Template/>
+<div className="mj-footer"></div>
