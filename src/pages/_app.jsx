@@ -3,12 +3,12 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "../scss/main.scss";
 
-import { MainContext } from "../contexts/main";
+import { CacheContext } from "../contexts/cache";
 import Head from "next/head";
 
 export default ({ Component, pageProps }) =>
 
-<MainContext>
+<CacheContext>
     <Head>
         <title>Nextjs Seed</title>
         <meta charSet="utf-8" />
@@ -16,4 +16,4 @@ export default ({ Component, pageProps }) =>
     </Head>
 
     <Component {...pageProps} />
-</MainContext>
+</CacheContext>

@@ -1,7 +1,10 @@
+import { PageContext } from "../../contexts/page";
 import Layout from "../../components/layout";
 
 export default () =>
 
-<Layout>
-    Other
-</Layout>
+<PageContext>
+    <Layout>
+        Other
+    </Layout>
+</PageContext>
