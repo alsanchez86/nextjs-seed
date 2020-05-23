@@ -1,5 +1,5 @@
 /**
- * Get api absolute url from endpoint (internal (ssr) or externalr (!ssr)).
+ * Get api absolute url from endpoint (private (ssr) or public (!ssr)).
  *
  *
  */
@@ -25,6 +25,6 @@ export default (args) => {
         "://",
         host,
         "/",
-        aux ? `${aux}/` : ""
+        (aux ? `${aux}/` : "")
     ].join("");
 }

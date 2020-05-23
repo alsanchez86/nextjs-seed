@@ -10,4 +10,4 @@
  *
  */
 
-require(`./config/environment/server/server.${process.env.NODE_ENV}`);
+require(`./config/environment/server/server.${process.env.NEXT_ENV}`);

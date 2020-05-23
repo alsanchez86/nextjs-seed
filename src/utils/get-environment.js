@@ -1,5 +1,5 @@
 /**
- * Get Nextjs api endpoint from environment internal (ssr) or externalr (!ssr).
+ * Get Nextjs api endpoint from environment private (ssr) or public (!ssr).
  *
  */
 
@@ -8,7 +8,7 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
 export default (args) => {
-    const environment = args?.ssr ? publicRuntimeConfig.environment.internal : publicRuntimeConfig.environment.external;
+    const environment = args?.ssr ? publicRuntimeConfig.environment.private : publicRuntimeConfig.environment.public;
     const protocol = environment.protocol;
     const host = environment.host;
     const port = environment.port;
@@ -18,8 +18,8 @@ export default (args) => {
         protocol,
         "://",
         host,
-        port ? `:${port}` : "",
-        context ? `/${context}` : "",
+        (port ? `:${port}` : ""),
+        (context ? `/${context}` : ""),
         "/"
     ].join("");
 }

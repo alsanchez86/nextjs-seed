@@ -9,25 +9,25 @@ const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 const endpoints = require("./config/endpoints");
 const environment = require("./config/environment");
 
-function getExternalUrl () {
-    const protocol = environment.external.protocol;
-    const host = environment.external.host;
-    const port = environment.external.port;
-    const context = environment.external.context;
+function getPubliclUrl () {
+    const protocol = environment.public.protocol;
+    const host = environment.public.host;
+    const port = environment.public.port;
+    const context = environment.public.context;
 
     return [
         protocol,
         "://",
         host,
-        port ? `:${port}` : "",
-        context ? `/${context}` : "",
+        (port ? `:${port}` : ""),
+        (context ? `/${context}` : ""),
         "/"
     ].join("");
 }
 
 module.exports = (phase) => {
     const dev = (phase === PHASE_DEVELOPMENT_SERVER);
-    const assetPrefix = getExternalUrl();
+    const assetPrefix = getPubliclUrl();
     const config = {
         assetPrefix,
         publicRuntimeConfig: {

@@ -1,6 +1,6 @@
 import fetcher from "./fetcher";
 import getEndpoint from "./get-endpoint"; // Get endpoint from ./config/endpoints
-import getEnvironmentApi from "./get-environment-api"; // Use when do a request to Nextjs API. From inside (internalUrl) or outside (externalUrl)
+import getEnvironmentApi from "./get-environment-api"; // Use when do a request to Nextjs API. From inside (private) or outside (public)
 
 export const requestFilms = (args) => {
     const q = args?.q;

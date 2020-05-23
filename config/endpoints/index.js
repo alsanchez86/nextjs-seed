@@ -5,7 +5,7 @@
  *
  */
 
-const dev = (process.env.NODE_ENV !== "production");
+const dev = (process.env.NEXT_ENV !== "production");
 const folder = "./static/";
 const endpoints = [
         "candidate-profile.json",
@@ -19,18 +19,20 @@ const endpoints = [
     .reduce((a, b) => a.concat(b));
 
 function getEndpointName (endpoint = {}){
-    return (Object.keys(endpoint)[0] || "");
+    const keys = Object.keys(endpoint);
+    return ((keys && keys[0]) || "");
 }
 
-module.exports = dev ? (data => {
+module.exports = dev ? (endpoints => {
     const mock = require(`${folder}mock.json`);
-    const mapped = data.map(e => (mock.filter(m => getEndpointName(e) === getEndpointName(m))[0] || e));
+    const mapped = endpoints.map(e => (mock.filter(m => getEndpointName(e) === getEndpointName(m))[0] || e));
     // Add endpoints from mock.json that doesnt exists on any others endpoints
-    mock.map(e => {
-        const exists = mapped.filter(m => getEndpointName(e) === getEndpointName(m))[0];
+    mock.forEach(e => {
+        const exists = mapped.filter(m => (getEndpointName(e) === getEndpointName(m)))[0];
         if (!exists){
             mapped.push(e);
         }
     });
+
     return mapped;
 })(endpoints) : endpoints;

@@ -1,6 +1,6 @@
 version: '3.1'
 services:
-    nextjs:
+    next:
         ports:
             - ${PUBLIC_PORT}:${PRIVATE_PORT}
         build:
