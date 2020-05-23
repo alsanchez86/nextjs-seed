@@ -9,7 +9,7 @@ export const requestFilms = (args) => {
         ...args
     });
 
-    return fetcher(`${endpoint}shows?q=${q}`, {
+    return fetcher(`${endpoint}/shows?q=${q}`, {
         method: "GET"
     });
 }
@@ -19,7 +19,7 @@ export const requestQuote = (args) => {
         ...args
     });
 
-    return fetcher(`${endpoint}get-quote`, {
+    return fetcher(`${endpoint}/get-quote`, {
         method: "GET"
     });
 }

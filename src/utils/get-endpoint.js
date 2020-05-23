@@ -25,6 +25,6 @@ export default (args) => {
         "://",
         host,
         "/",
-        (aux ? `${aux}/` : "")
+        aux
     ].join("");
 }
