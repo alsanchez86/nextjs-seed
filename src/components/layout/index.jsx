@@ -1,5 +1,10 @@
+import MainNav from "../main-nav";
+import Footer from "../footer";
+
 export default ({ children }) =>
 
-<div>
+<>
+    <MainNav />
     {children}
-</div>
+    <Footer />
+</>

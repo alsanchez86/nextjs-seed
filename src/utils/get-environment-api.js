@@ -21,7 +21,6 @@ export default (args) => {
         host,
         (port ? `:${port}` : ""),
         (context ? `/${context}` : ""),
-        (api ? `/${api}` : ""),
-        "/"
+        (api ? `/${api}` : "")
     ].join("");
 }

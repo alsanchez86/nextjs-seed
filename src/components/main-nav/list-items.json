@@ -1,0 +1,22 @@
+[
+    {
+        "icon": "",
+        "label": "Home",
+        "link": "/",
+        "activeLinks": [
+            "home"
+        ],
+        "active": false,
+        "visible": true
+    },
+    {
+        "icon": "",
+        "label": "Other",
+        "link": "/other",
+        "activeLinks": [
+            "other"
+        ],
+        "active": false,
+        "visible": true
+    }
+]

@@ -19,7 +19,6 @@ export default (args) => {
         "://",
         host,
         (port ? `:${port}` : ""),
-        (context ? `/${context}` : ""),
-        "/"
+        (context ? `/${context}` : "")
     ].join("");
 }

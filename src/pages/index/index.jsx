@@ -25,6 +25,7 @@ export default ({ ssrShows, ssrQuote }) => {
 
     const getBatmanFilms = async () => {
         const res = await requestFilms({q: "batman"});
+
         if (res?.ok){
             contextDispatch(updateShows(res?.data));
         }

@@ -1,10 +1,10 @@
+import Layout from "../../components/layout";
 import { Button } from 'primereact/button';
-import Footer from "../../components/footer";
 import { publicUrl } from "../../utils";
 
 export default ({ shows, getBatmanFilms, quote, getQuote }) =>
 
-<>
+<Layout>
     <ul>
         {shows?.map(({show}) => (
             <li key={show?.id}>
@@ -31,7 +31,5 @@ export default ({ shows, getBatmanFilms, quote, getQuote }) =>
         onClick={getQuote}>
     </Button>
 
-    <img src={`${publicUrl}images/perro.jpg`}/>
-
-    <Footer />
-</>
+    <img src={`${publicUrl}/images/perro.jpg`}/>
+</Layout>
