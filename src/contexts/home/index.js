@@ -13,8 +13,6 @@ export const useHomeContextDispatch = () => useContext(DispatchContext);
 export const HomeContext = ({ children, value }) => {
     const [state, dispatch] = useReducer(reducer, createState(value));
 
-    console.log("home context");
-
     return (
         <DispatchContext.Provider value={dispatch}>
             <StateContext.Provider value={state}>
