@@ -6,8 +6,11 @@ import { initialState } from "./initial-state";
 // Get data from sessionStorage
 export const getCache = () => {
     let storage = (typeof(sessionStorage) !== "undefined") ? sessionStorage.getItem("cacheContextState") : null;
-    let data = storage ? JSON.parse(storage) : initialState;
-    return data;
+    let data = storage ? JSON.parse(storage) : {};
+    return {
+        ...initialState,
+        ...data
+    };
 };
 
 // Set data on sessionStorage

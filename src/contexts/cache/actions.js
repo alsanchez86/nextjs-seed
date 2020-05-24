@@ -9,3 +9,8 @@ export const setLoading = (value = false) => ({
     type: "SET_LOADING",
     value
 });
+
+export const addToHistory = (value = "") => ({
+    type: "ADD_TO_HISTORY",
+    value
+});

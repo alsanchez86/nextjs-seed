@@ -1,4 +1,6 @@
+import { useCacheContextState, useCacheContextDispatch } from "../../contexts/cache";
 import { useHomeContextState, useHomeContextDispatch } from "../../contexts/home";
+import { addToHistory } from "../../contexts/cache/actions";
 import { updateShows, updateQuote } from "../../contexts/home/actions";
 import { requestFilms, requestQuote } from "../../utils/requests";
 import { InputText } from "primereact/inputtext";
@@ -7,19 +9,27 @@ import { publicUrl } from "../../utils";
 import { useState } from "react";
 
 export default () => {
+    const cacheContextState = useCacheContextState();
+    const cacheContextDispatch = useCacheContextDispatch();
     const contextState = useHomeContextState();
     const contextDispatch = useHomeContextDispatch();
     const [quoteSearch, setQuoteSearch] = useState("");
 
-    const getBatmanFilms = async () => {
+    const searchFilms = async () => {
         const res = await requestFilms({q: quoteSearch});
+
         if (res?.ok){
             contextDispatch(updateShows(res?.data));
+        }
+
+        if (quoteSearch !== ""){
+            cacheContextDispatch(addToHistory(quoteSearch));
         }
     };
 
     const getQuote = async () => {
         const res = await requestQuote({ssr: false});
+
         if (res?.ok){
             contextDispatch(updateQuote(res?.data));
         }
@@ -27,7 +37,7 @@ export default () => {
 
     const handleEnterKey = (e) => {
         if (e.key === "Enter"){
-            getBatmanFilms();
+            searchFilms();
         }
     }
 
@@ -38,8 +48,9 @@ export default () => {
                     <div className="p-inputgroup">
                         <Button
                             label="Search"
-                            onClick={getBatmanFilms}
+                            onClick={searchFilms}
                         />
+
                         <InputText
                             id="quote"
                             placeholder="Search"
@@ -49,25 +60,41 @@ export default () => {
                         />
                     </div>
 
-                    {(contextState?.shows?.length > 0) && (
-                        <ul>
-                            {contextState?.shows?.map(({show}) => (
-                                <li key={show?.id}>
-                                    <div href="/shows/[id]" as={`/shows/${show?.id}`}>
-                                        <a>
+                    <div className="p-grid">
+                        <div className="p-col-12 p-md-6">
+                            {(contextState?.shows?.length > 0) && (
+                                <ul>
+                                    {contextState?.shows?.map(({show}) => (
+                                        <li key={show?.id}>
                                             {show?.name}
-                                        </a>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
 
-                    {(contextState?.shows?.length === 0) && (
-                        <p>
-                            No results.
-                        </p>
-                    )}
+                            {(contextState?.shows?.length === 0) && (
+                                <p>
+                                    No results.
+                                </p>
+                            )}
+                        </div>
+
+                        <div className="p-col-12 p-md-6">
+                            <p>
+                                Histórico de búsquedas:
+                            </p>
+
+                            {(cacheContextState?.historyShowSearchs?.length > 0) && (
+                                <ul>
+                                    {cacheContextState?.historyShowSearchs?.map(search => (
+                                        <li key={search?.id}>
+                                            {search?.text}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 <div className="p-col-12 p-md-4">

@@ -1,6 +1,7 @@
 import { initialState } from "./initial-state";
 
-export const createState = (state = initialState) => ({
+export const createState = (state = {}) => ({
+    ...initialState,
     ...state
 });
 

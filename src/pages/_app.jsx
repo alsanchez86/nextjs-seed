@@ -3,7 +3,6 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "../scss/main.scss";
-
 import { CacheContext } from "../contexts/cache";
 import Head from "next/head";
 
