@@ -13,11 +13,11 @@ export default ({ children }) => {
 
     useEffect(() => {
         const handleStart = (url) => ((url !== router.pathname) && contextDispatch(setLoading(true)));
-        router.events.on('routeChangeStart', handleStart);
+        router.events.on("routeChangeStart", handleStart);
         contextDispatch(setLoading(false)); // Load data from cache too
 
         return () => {
-            router.events.off('routeChangeStart', handleStart);
+            router.events.off("routeChangeStart", handleStart);
         }
     }, []);
 
