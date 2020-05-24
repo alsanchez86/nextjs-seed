@@ -25,6 +25,12 @@ export default () => {
         }
     };
 
+    const handleEnterKey = (e) => {
+        if (e.key === "Enter"){
+            getBatmanFilms();
+        }
+    }
+
     return (
         <>
             <div className="p-grid">
@@ -32,10 +38,15 @@ export default () => {
                     <div className="p-inputgroup">
                         <Button
                             label="Search"
-                            icon="pi pi-check"
                             onClick={getBatmanFilms}
                         />
-                        <InputText id="quote" value={quoteSearch} onChange={(e) => setQuoteSearch(e.target.value)} placeholder="Search"/>
+                        <InputText
+                            id="quote"
+                            placeholder="Search"
+                            value={quoteSearch}
+                            onChange={(e) => setQuoteSearch(e.target.value)}
+                            onKeyDown={(e) => handleEnterKey(e)}
+                        />
                     </div>
 
                     {(contextState?.shows?.length > 0) && (
