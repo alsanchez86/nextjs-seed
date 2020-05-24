@@ -1,6 +1,7 @@
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import "primeflex/primeflex.css";
 import "../scss/main.scss";
 
 import { CacheContext } from "../contexts/cache";
