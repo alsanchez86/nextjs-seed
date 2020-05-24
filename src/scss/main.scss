@@ -2,6 +2,7 @@
 
 // Vanilla
 body {
+    margin: 0;
     font-family: 'Arial';
 }
 
@@ -28,4 +29,27 @@ h3 {
     margin: 0;
     padding: 0;
     text-transform: uppercase;
+}
+
+// Custom primereact menubar
+.p-menubar {
+    margin-bottom: 2rem;
+}
+
+div.p-menubar ul.p-menubar-root-list {
+    display: none;
+}
+
+div.p-menubar div.p-menubar-custom {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    float: none;
+}
+
+// Footer
+.footer {
+    padding: 1rem;
+    color: $color-1;
+    background-color: $color-2;
 }

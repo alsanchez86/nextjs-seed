@@ -4,6 +4,7 @@ import { addClass } from "../../utils";
 import ListItem from "./list-item.class";
 import ListItemsData from "./list-items.json";
 import { Button } from "primereact/button";
+import { Menubar } from "primereact/menubar";
 
 export default () => {
     const router = useRouter();
@@ -17,16 +18,18 @@ export default () => {
 
     return (
         <>
-            {items.map(item => (
-                <li key={item.link} className={`${addClass("active", item.active)}`}>
-                    <Link href={item.link}>
-                        <Button
-                            label={item.label}
-                            icon={`${item.icon}`}
-                        />
-                    </Link>
-                </li>
-            ))}
+            <Menubar>
+                {items.map(item => (
+                    <div key={item.link} className={`${addClass("active", item.active)}`}>
+                        <Link href={item.link}>
+                            <Button
+                                label={item.label}
+                                icon={`${item.icon}`}
+                            />
+                        </Link>
+                    </div>
+                ))}
+            </Menubar>
         </>
     );
 }

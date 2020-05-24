@@ -28,35 +28,45 @@ export default () => {
     return (
         <>
             <div className="p-grid">
-                <div className="p-col-4">
-                    <ul>
-                        {contextState?.shows?.map(({show}) => (
-                            <li key={show?.id}>
-                                <div href="/shows/[id]" as={`/shows/${show?.id}`}>
-                                    <a>
-                                        {show?.name}
-                                    </a>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                <div className="p-col-12 p-md-4">
+                    <div className="p-inputgroup">
+                        <Button
+                            label="Search"
+                            icon="pi pi-check"
+                            onClick={getBatmanFilms}
+                        />
+                        <InputText id="quote" value={quoteSearch} onChange={(e) => setQuoteSearch(e.target.value)} placeholder="Search"/>
+                    </div>
+
+                    {(contextState?.shows?.length > 0) && (
+                        <ul>
+                            {contextState?.shows?.map(({show}) => (
+                                <li key={show?.id}>
+                                    <div href="/shows/[id]" as={`/shows/${show?.id}`}>
+                                        <a>
+                                            {show?.name}
+                                        </a>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+
+                    {(contextState?.shows?.length === 0) && (
+                        <p>
+                            No results.
+                        </p>
+                    )}
                 </div>
 
-                <div className="p-col-4">
-                    <span className="p-float-label">
-                        <InputText id="quote" value={quoteSearch} onChange={(e) => setQuoteSearch(e.target.value)} />
-                        <label htmlFor="quote">Search</label>
-                    </span>
-
-                    <Button
-                        label="get batman films"
-                        icon="pi pi-check"
-                        onClick={getBatmanFilms}
-                    />
+                <div className="p-col-12 p-md-4">
+                    <img src={`${publicUrl}/images/perro.jpg`}/>
                 </div>
 
-                <div className="p-col-4">
+                <div className="p-col-12 p-md-4">
                     <p>
+                        Author: {contextState?.quote?.author}
+                        <br/>
                         Quote: {contextState?.quote?.text}
                     </p>
 
@@ -64,12 +74,6 @@ export default () => {
                         label="get quote"
                         onClick={getQuote}>
                     </Button>
-                </div>
-            </div>
-
-            <div className="p-grid">
-                <div className="p-col-12">
-                    <img src={`${publicUrl}/images/perro.jpg`}/>
                 </div>
             </div>
         </>
