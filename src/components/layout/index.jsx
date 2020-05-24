@@ -5,32 +5,47 @@ import { useCacheContextState, useCacheContextDispatch } from "../../contexts/ca
 import MainNav from "../main-nav";
 import Footer from "../footer";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { publicUrl } from "../../utils";
 
 export default ({ children }) => {
-    const router = useRouter();
-    const contextState = useCacheContextState();
-    const contextDispatch = useCacheContextDispatch();
+    const Router = useRouter();
+    const cacheContextState = useCacheContextState();
+    const cacheContextDispatch = useCacheContextDispatch();
 
     useEffect(() => {
-        const handleStart = (url) => ((url !== router.pathname) && contextDispatch(setLoading(true)));
-        router.events.on("routeChangeStart", handleStart);
-        contextDispatch(setLoading(false)); // Load data from cache too
+        const handleStart = (url) => {
+            const pathname = `${publicUrl}${Router.pathname}`;
+            const changed = (pathname !== url);
+            if (changed) {
+                cacheContextDispatch(setLoading(true));
+            }
+        };
+
+        Router.events.on("routeChangeStart", handleStart);
+        Router.events.on("routeChangeError", (err) => {
+            // If a route load is cancelled (for example, by clicking two links rapidly in succession), routeChangeError will fire.
+            if (err.cancelled) {
+                cacheContextDispatch(setLoading(false));
+            }
+        });
 
         return () => {
-            router.events.off("routeChangeStart", handleStart);
+            Router.events.off("routeChangeStart", handleStart);
         }
+    }, []);
+
+    useEffect(() => {
+        // Load data from cache on init. Equals to cacheContextDispatch(loadCache());
+        cacheContextDispatch(setLoading(false));
     }, []);
 
     return (
         <>
             <MainNav />
-
-            {contextState?.loadingPage && (
+            {cacheContextState?.loadingPage && (
                 <ProgressSpinner strokeWidth={"6"} />
             )}
-
-            {!contextState?.loadingPage && children}
-
+            {!cacheContextState?.loadingPage && children}
             <Footer />
         </>
     );

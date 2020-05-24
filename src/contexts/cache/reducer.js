@@ -7,7 +7,7 @@ export default (state, action) => {
 
         switch (action.type) {
             case "LOAD_CACHE":
-                return updateState(cache, action.value);
+                return cache;
 
             case "SET_LOADING":
                 return updateState(cache, {
@@ -28,6 +28,7 @@ export default (state, action) => {
 
 const addToHistory = (cache = {}, value = "") => {
     let historyShowSearchs = cache?.historyShowSearchs;
+
     historyShowSearchs.push({
         id: historyShowSearchs?.length,
         text: value

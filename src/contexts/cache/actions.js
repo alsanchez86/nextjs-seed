@@ -1,7 +1,6 @@
 // Force restauring cache
-export const loadCache = (value = {}) => ({
-    type: "LOAD_CACHE",
-    value
+export const loadCache = () => ({
+    type: "LOAD_CACHE"
 });
 
 // Set loading value
@@ -10,6 +9,7 @@ export const setLoading = (value = false) => ({
     value
 });
 
+// Add show search to history
 export const addToHistory = (value = "") => ({
     type: "ADD_TO_HISTORY",
     value

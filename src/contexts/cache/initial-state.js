@@ -1,4 +1,4 @@
 export const initialState = {
-    loadingPage: false,
+    loadingPage: true,
     historyShowSearchs: []
 };

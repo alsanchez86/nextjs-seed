@@ -17,14 +17,16 @@ export default () => {
 
     const searchFilms = async () => {
         const res = await requestFilms({q: quoteSearch});
-
+        // Update shows on page context
         if (res?.ok){
             contextDispatch(updateShows(res?.data));
         }
-
+        // Add search to cache history
         if (quoteSearch !== ""){
             cacheContextDispatch(addToHistory(quoteSearch));
         }
+        // Reset search
+        setQuoteSearch("");
     };
 
     const getQuote = async () => {

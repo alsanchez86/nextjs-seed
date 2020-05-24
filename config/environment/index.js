@@ -6,8 +6,6 @@
  *
  */
 
-// console.log("process", process);
-
 module.exports = {
     private: {
         protocol: process.env.PRIVATE_PROTOCOL,

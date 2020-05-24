@@ -23,9 +23,7 @@ export const setCache = (state) => {
 // Force restauring cache from a component
 export const loadContextCache = () => {
     const contextDispatch = useCacheContextDispatch();
-
     useEffect(() => {
-        const data = getCache();
-        contextDispatch(loadCache(data));
+        contextDispatch(loadCache());
     }, []);
 }

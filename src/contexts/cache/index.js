@@ -11,7 +11,7 @@ const DispatchContext = React.createContext();
 export const useCacheContextState = () => useContext(StateContext);
 export const useCacheContextDispatch = () => useContext(DispatchContext);
 export const CacheContext = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, createState());
+    const [state, dispatch] = useReducer(reducer, createState()); // Cant pass cache on create state because doesnt exists on the server
 
     return (
         <DispatchContext.Provider value={dispatch}>
