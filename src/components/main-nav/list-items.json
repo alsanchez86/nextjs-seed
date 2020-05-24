@@ -18,5 +18,15 @@
         ],
         "active": false,
         "visible": true
+    },
+    {
+        "icon": "",
+        "label": "Other two",
+        "link": "/other-two",
+        "activeLinks": [
+            "other-two"
+        ],
+        "active": false,
+        "visible": true
     }
 ]

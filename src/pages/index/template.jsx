@@ -43,6 +43,16 @@ export default () => {
         }
     }
 
+    const goSearchHistory = async (search) => {
+        const res = await requestFilms({q: search?.text});
+        // Update shows on page context
+        if (res?.ok){
+            contextDispatch(updateShows(res?.data));
+        }
+        // Reset search
+        setQuoteSearch("");
+    }
+
     return (
         <>
             <div className="p-grid">
@@ -90,7 +100,10 @@ export default () => {
                                 <ul>
                                     {cacheContextState?.historyShowSearchs?.map(search => (
                                         <li key={search?.id}>
-                                            {search?.text}
+                                            <Button
+                                                label={search?.text}
+                                                onClick={() => goSearchHistory(search)}
+                                            />
                                         </li>
                                     ))}
                                 </ul>
